@@ -1,0 +1,57 @@
+[
+    {
+        "golongan" : "R1",
+        "daya" : "450 VA (Subsidi)",
+        "tarif" : "415"
+    },
+    {
+        "golongan" : "R1",
+        "daya" : "900 VA (Subsidi)",
+        "tarif" : "605"
+    },
+    {
+        "golongan" : "R1",
+        "daya" : "900 VA",
+        "tarif" : "1352"
+    },
+    {
+        "golongan" : "R1",
+        "daya" : "1300 VA",
+        "tarif" : "1444.70"
+    },
+    {
+        "golongan" : "R1",
+        "daya" : "2200 VA",
+        "tarif" : "1444.70"        
+    },
+    {
+        "golongan" : "R2",
+        "daya" : "33000 – 5500 VA",
+        "tarif" : "1444.70"        
+    },
+    {
+        "golongan" : "R3",
+        "daya" : "6600 VA ke atas",
+        "tarif" : "1444.70"        
+    },
+    {
+        "golongan" : "B1",
+        "daya" : "450 VA",
+        "tarif" : "254"        
+    },
+    {
+        "golongan" : "B1",
+        "daya" : "900 VA",
+        "tarif" : "420"        
+    },
+    {
+        "golongan" : "B1",
+        "daya" : "1.300 VA",
+        "tarif" : "966"        
+    },
+    {
+        "golongan" : "B1",
+        "daya" : "2200 – 5500 VA",
+        "tarif" : "1.114,74"        
+    }
+]

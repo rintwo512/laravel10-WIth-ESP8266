@@ -1,0 +1,79 @@
+* {
+    -webkit-touch-callout: none; /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none; /* prevent webkit from resizing text to fit */
+  /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-user-select: none; /* prevent copy paste, to allow, change 'none' to 'text' */
+   /* -webkit-tap-highlight-color: rgba(0,0,0,0); */
+  }
+
+    body {
+      background: #fafafa;
+      color: #000;
+      margin: 5px;
+      padding: 0px;
+      margin-bottom: 45px;
+      text-align: center;
+      font-family: 'Roboto',Helvetica, Arial;
+    }
+
+    a {
+      color: #000;
+    }
+
+    .box {
+      display: inline-block;
+      color: #FFF;
+      background: #000;
+      padding: 10px;
+      margin: 10px;
+      cursor: pointer;
+    }
+
+    .box:hover {
+      background: #444;
+    }
+
+    .big {
+      font-size: 2em;
+      display: inline-block;
+      margin: 10px;
+    }
+    .container {
+      position: relative;
+      display: inline-block;
+      width: 533px;
+      height: 800px;
+    }
+
+    #robot {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      z-index: 1;
+      -webkit-box-shadow: 0px 0px 20px 0px #707070;
+      -moz-box-shadow: 0px 0px 20px 0px #707070;
+      box-shadow: 0px 0px 20px 0px #707070;
+    }
+
+    #redux {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      z-index: 2;
+    }
+
+    #progress {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      color: black;
+      pointer-events: none;
+      z-index: 3;
+      text-shadow: 0px 0px 2px #FFFFFF;
+    }
+    small {
+      font-size: 12px;
+      color: #BBB;
+      font-weight: normal;
+    }

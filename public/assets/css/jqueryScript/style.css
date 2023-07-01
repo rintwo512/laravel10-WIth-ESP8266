@@ -1,0 +1,169 @@
+#wrapper {
+
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	background-color: rgba(0,0,0,1);
+
+}
+
+#slider-wrapper {
+	
+	background-color: rgba(255,255,255,1);
+	width: 580px;
+	margin-top: 150px;
+	padding-bottom: 15px;
+	padding-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 4px;
+	-webkit-box-shadow: 0 0 4px gray;
+	-moz-box-shadow: 0 0 4px gray;
+    	box-shadow: 0 0 4px gray;
+
+}
+
+#slider-red-container {
+
+	margin-left: auto;
+	margin-right: auto;
+	height: 40px;
+	width: 500px;
+	cursor: pointer;
+	-webkit-user-select: none;
+
+}
+
+#slider-green-container {
+
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 35px;
+	height: 40px;
+	width: 500px;
+	cursor: pointer;
+	-webkit-user-select: none;
+
+}
+
+#slider-blue-container {
+
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 35px;
+	height: 40px;
+	width: 500px;
+	cursor: pointer;
+	-webkit-user-select: none;
+
+}
+
+#text-container {
+
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 50px;
+	height: 40px;
+	width: 500px;
+
+}
+
+.line {
+
+	position: relative;
+	top: 21px;
+	height: 2px;
+	width: 100%;
+	background-color: rgba(0,0,0,1);
+
+}
+
+.slider {
+
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	height: 100%;
+	width: 100%;
+
+}
+
+#info-red {
+
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 13px;
+	width: 500px;
+	height: 25px;
+	line-height: 25px;
+	text-align: center;
+	font-family: helvetica;
+	border: 1px solid rgba(255,0,0,0.3);
+	border-radius: 4px;
+
+}
+
+#info-green {
+
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 13px;
+	width: 500px;
+	height: 25px;
+	line-height: 25px;
+	text-align: center;
+	font-family: helvetica;
+	border: 1px solid rgba(0,255,0,0.3);
+	border-radius: 4px;
+
+}
+
+#info-blue {
+
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 13px;
+	width: 500px;
+	height: 25px;
+	line-height: 25px;
+	text-align: center;
+	font-family: helvetica;
+	border: 1px solid rgba(0,0,255,0.3);
+	border-radius: 4px;
+
+}
+
+.jbslider-handle-red {
+
+	position: relative;
+	left: -4%;
+	height: 40px;
+	width: 40px;
+	background-color: rgba(0,0,0,1);
+	border-radius: 4px;
+
+}
+
+.jbslider-handle-green {
+
+	position: relative;
+	left: -4%;
+	height: 40px;
+	width: 40px;
+	background-color: rgba(0,0,0,1);
+	border-radius: 4px;
+
+}
+
+.jbslider-handle-blue {
+
+	position: relative;
+	left: -4%;
+	height: 40px;
+	width: 40px;
+	background-color: rgba(0,0,0,1);
+	border-radius: 4px;
+
+}

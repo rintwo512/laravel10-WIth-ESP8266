@@ -1,0 +1,257 @@
+[
+    {
+        "kode" : "A0",
+        "penyebab" : "Perangkat perlindungan eksternal diaktifkan",
+        "perbaikan" : "Periksa Perangkat perlindungan eksternal yang terhubung ke terminal strip T1-T2 dari unit indoor diaktifkan"
+    },
+    {
+        "kode" : "A1",
+        "penyebab" : "Kerusakan unit indoor PCB",
+        "perbaikan" : "Kerusakan akibat kebisingan dan Kerusakan unit PCB dalam ruangan"
+    },
+    {
+        "kode" : "A3",
+        "penyebab" : "Kerusakan sistem kontrol pada  sistem pembuangan",
+        "perbaikan" : "Periksa  penyumbatan pipa pada pipa pembuangan"
+    },
+    {
+        "kode" : "A4",
+        "penyebab" : "Ada Terjadinya pembekuan",
+        "perbaikan" : "Kekurangan volume air, Pengaturan suhu air yang rendah ."
+    },
+    {
+        "kode" : "A5",
+        "penyebab" : "Kontrol tekanan yang tinggi dalam pemanasan, terjadi pembekuan dalam pendinginan",
+        "perbaikan" : "Filter udara tersumbat dari unit indoor. Menyebabkan terjadi masalah dari thermistor heat exchanger unit indoor"
+    },
+    {
+        "kode" : "A6",
+        "penyebab" : "Motor kipas terkunci, kelebihan beban, arus berlebih",
+        "perbaikan" : "1.Periksakontak konektor dalam – ruangan unit PCB 2.Periksa motor kipas"
+    },
+    {
+        "kode" : "A7",
+        "penyebab" : "Kerusakan pada flap motor swing",
+        "perbaikan" : "Kegagalan swing flap motor dalam unit AC"
+    },
+    {
+        "kode" : "A8",
+        "penyebab" : "Kerusakan pasokan listrik",
+        "perbaikan" : "Arus berlebih dari input AC"
+    },
+    {
+        "kode" : "A9",
+        "penyebab" : "Kerusakan pada drive katup ekspansi elektronik",
+        "perbaikan" : "katup kumparan ekspansi elektronik dalam ruangan unit AC dan periksa PCB kontak konektor"
+    },
+    {
+        "kode" : "AA",
+        "penyebab" : "Pemanas terlalu panas",
+        "perbaikan" : "Hal ini terjadi jika 26WH diaktifkan"
+    },
+    {
+        "kode" : "AF",
+        "penyebab" : "Kerusakan sistem humidifier",
+        "perbaikan" : "Kebocoran air humidifier (opsi). Kegagalan swing float switch Saluran drain yang tidak benar"
+    },
+    {
+        "kode" : "AH",
+        "penyebab" : "Kerusakan kolektor debu dari pembersih udara",
+        "perbaikan" : "1.Terjadi masalah pada elemen pengumpul debu pada unit 2.Bagian isolator terlalu banyak debu"
+    },
+    {
+        "kode" : "AJ",
+        "penyebab" : "Kerusakan pengaturan kapasitas (indoor unit PCB)",
+        "perbaikan" : "Adaptor pengaturan kapasitas tidak dipasang saat mengganti PCB Kerusakan unit PCB dalam ruangan"
+    },
+    {
+        "kode" : "C1",
+        "penyebab" : "Kegagalan transmisi (antara PCB unit dalam ruangan dan kipas PCB)",
+        "perbaikan" : "Kerusakan transmisi driver kontrol motor kipas"
+    },
+    {
+        "kode" : "C4",
+        "penyebab" : "Kerusakan pada termistor pipa penukar panas",
+        "perbaikan" : "1.Kerusakan kontak konektor 2.Kerusakan thermistor pipa cairan untuk penukar panas"
+    },
+    {
+        "kode" : "C5",
+        "penyebab" : "Kerusakan termistor pipa gas untuk penukar panas",
+        "perbaikan" : "1.Kerusakan kontak konektor 2.Kerusakan termistor pipa gas untuk penukar panas"
+    },
+    {
+        "kode" : "C6",
+        "penyebab" : "Kerusakan driver kontrol motor kipas",
+        "perbaikan" : "Kerusakan sistem sensor motor kipas Kerusakan driver kontrol motor kipas"
+    },
+    {
+        "kode" : "C7",
+        "penyebab" : "Kesalahan motor penggerak panel depan",
+        "perbaikan" : "Kerusakan motor penggerak panel depan Kerusakan saklar batas"
+    },
+    {
+        "kode" : "C9",
+        "penyebab" : "Kerusakan termistor udara hisap",
+        "perbaikan" : "Kerusakan kontak konektor Kerusakan thermistor untuk hisap udara"
+    },
+    {
+        "kode" : "CA",
+        "penyebab" : "Kerusakan termistor udara buang",
+        "perbaikan" : "1.Kerusakan kontak konektor 2.Kerusakan thermistor untuk debit udara"
+    },
+    {
+        "kode" : "CC",
+        "penyebab" : "Kerusakan sistem sensor kelembaban",
+        "perbaikan" : "Kerusakan kontak konektor Kerusakan pada sensor kelembaban"
+    },
+    {
+        "kode" : "CJ",
+        "penyebab" : "Kerusakan sensor termostat pada remote kontrol",
+        "perbaikan" : "Kerusakan remote kontrol termistor Kerusakan akibat kebisingan Kerusakan dari remote kontrol PCB"
+    },
+    {
+        "kode" : "E0",
+        "penyebab" : "Perangkat proteksi diaktifkan (terpadu)",
+        "perbaikan" : "Perangkat perlindungan yang terhubung ke PCB luar digerakkan Kerusakan konektor perangkat perlindungan kontak"
+    },
+    {
+        "kode" : "E1",
+        "penyebab" : "Kerusakan dari unit PCB luar ruangan",
+        "perbaikan" : "Kerusakan akibat kebisingan Kerusakan dari unit PCB luar ruangan"
+    },
+    {
+        "kode" : "E3",
+        "penyebab" : "Aktuasi saklar tekanan tinggi (HPS)",
+        "perbaikan" : "Penukar panas unit luar kotor dan filter hisap Kerusakan HPS Pipa pendingin tersumbat Kerusakan kontak konektor"
+    },
+    {
+        "kode" : "E3",
+        "penyebab" : "Sistem No.1 Aktuasi saklar tekanan tinggi (HPS)",
+        "perbaikan" : "1.Penukar panas unit luar kotor 2.Pipa pendingin tersumbat 3.Kerusakan HPS 4.Kekurangan volume air 5.Kerusakan kontak konektor"
+    },
+    {
+        "kode" : "E4",
+        "penyebab" : "Aktuasi saklar tekanan rendah (LPS)",
+        "perbaikan" : "1.Pipa pendingin tersumbat 2.Kekurangan gas 3.Kerusakan konektor penghubung 4.Kerusakan pada unit luar PCB"
+    },
+    {
+        "kode" : "E5",
+        "penyebab" : "Overheat motor kompresor inverter",
+        "perbaikan" : "1.Kekurangan jumlah refrigeran Kerusakan kontak konektor 2.Kebocoran katup empat arah"
+    },
+    {
+        "kode" : "E5",
+        "penyebab" : "Kunci motor kompresor inverter",
+        "perbaikan" : "Kunci kompresor inverter Kabel salah"
+    },
+    {
+        "kode" : "E6",
+        "penyebab" : "STD kompresor motor arus lebih / kunci",
+        "perbaikan" : "Katup STD kompresor katup berhenti tertutup"
+    },
+    {
+        "kode" : "E6",
+        "penyebab" : "Sistem 1 Kompresor arus lebih",
+        "perbaikan" : "1.Kerusakan EXP.katup 2.Kekurangan jumlah refrigeran 3.Kerusakan kompresor"
+    },
+    {
+        "kode" : "E7",
+        "penyebab" : "Kerusakan motor kipas unit luar",
+        "perbaikan" : "1.Kontak yang salah dari konektor motor kipas 2.Kerusakan motor kipas 3.Kerusakan driver motor kipas"
+    },
+    {
+        "kode" : "E8",
+        "penyebab" : "Arus lebih dari kompresor inverter",
+        "perbaikan" : "1.Kerusakan kompresor 2.Kerusakan dari unit luar PCB 3.Kerusakan dari inverter kapasitor sirkuit utama 4.Kerusakan transistor daya"
+    },
+    {
+        "kode" : "E9",
+        "penyebab" : "Kerusakan katup katup ekspansi elektronik",
+        "perbaikan" : "1.Kerusakan katup ekspansi elektronik 2.Kerusakan kontak konektor PCB 3.Kerusakan dari unit outdoor PCB"
+    },
+    {
+        "kode" : "EA",
+        "penyebab" : "Kerusakan katup empat arah",
+        "perbaikan" : "1.Kerusakan katup empat arah 2.Kerusakan pada unit luar PCB 3.Kekurangan gas 4.Kerusakan termistor"
+    },
+    {
+        "kode" : "EC",
+        "penyebab" : "Malfungsi memasuki suhu air",
+        "perbaikan" : "1.Kerusakan suhu air pendingin 2.Kerusakan thermistor 3.Kerusakan dari unit outdoor PCB"
+    },
+    {
+        "kode" : "EF",
+        "penyebab" : "Kerusakan unit penyimpanan termal",
+        "perbaikan" : "1.Kerusakan katup ekspansi elektronik dari unit penyimpanan termal 2.Kerusakan penyimpanan PCB termal"
+    },
+    {
+        "kode" : "F3",
+        "penyebab" : "Kerusakan suhu pipa buangan",
+        "perbaikan" : "1.Kekurangan gas 2.Kerusakan kontak konektor 3.Pipa pendingin tersumbat. 4.Kerusakan untuk mengeluarkan pipa termistor"
+    },
+    {
+        "kode" : "F6",
+        "penyebab" : "Tekanan tinggi yang tidak normal dalam pendinginan",
+        "perbaikan" : "1.Kerusakan motor kipas unit luar ruangan 2.Kerusakan katup ekspansi elektronik 3.Kerusakan thermistor penukar panas 4.Kerusakan dari unit outdoor PCB"
+    },
+    {
+        "kode" : "F6",
+        "penyebab" : "Refrigerant ditagih berlebihan",
+        "perbaikan" : "1.Refrigerant overcharged 2.Pemutusan termistor penukar panas 3.Pemutusan termistor udara luar 4.Pemutusan thermistor pipa cair"
+    },
+    {
+        "kode" : "U0",
+        "penyebab" : "Kekurangan refrigeran",
+        "perbaikan" : "1.Kekurangan refrigeran 2.Pipa refrigeran tersumbat 3.Katup penahan tertutup"
+    },
+    {
+        "kode" : "U1",
+        "penyebab" : "Fase terbalik, fase terbuka",
+        "perbaikan" : "1.Fase terbalik, fase terbuka kabel listrik Kabel salah 2.Kerusakan unit luar PCB"
+    },
+    {
+        "kode" : "U2",
+        "penyebab" : "Kerusakan tegangan suplai daya atau kegagalan daya sesaat",
+        "perbaikan" : "1.Kerusakan tegangan catu daya 2.Kegagalan daya seketika 3.Kerusakan kontak pengkabelan"
+    },
+    {
+        "kode" : "U3",
+        "penyebab" : "Periksa operasi tidak dieksekusi",
+        "perbaikan" : ""
+    },
+    {
+        "kode" : "U3",
+        "penyebab" : "Kerusakan transmisi",
+        "perbaikan" : "1.Kerusakan akibat kebisingan 2.Kerusakan dari unit PCB luar ruangan"
+    },
+    {
+        "kode" : "U4",
+        "penyebab" : "Kerusakan transmisi antara unit indoor dan outdoor",
+        "perbaikan" : "1.Kerusakan atau kabel transmisi unit dalam dan luar 2.Malfungsi karena kebisingan 3.Kerusakan unit indoor PCB dan unit outdoor PCB"
+    },
+    {
+        "kode" : "U5",
+        "penyebab" : "Kerusakan transmisi antara unit indoor dan remote kontrol",
+        "perbaikan" : "1.Kerusakan remote kontrol kabel 2.Kerusakan unit indoor PCB 3.Kerusakan akibat kebisingan 4.Kerusakan pengendali utama / sub pengaturan remote"
+    },
+    {
+        "kode" : "U6",
+        "penyebab" : "Kerusakan transmisi antara unit indoor",
+        "perbaikan" : "1.Kabel rusak Kerusakan dalam ruangan 2.Kerusakan unit PCB akibat kebisingan"
+    },
+    {
+        "kode" : "U7",
+        "penyebab" : "Kerusakan transmisi antara mikro-komputer badan utama – INV mikro-komputer",
+        "perbaikan" : "Harness disconnection / broken wire antara PCB Defect dari unit outdoor PCB"
+    },
+    {
+        "kode" : "U7",
+        "penyebab" : "Kerusakan transmisi antara unit luar",
+        "perbaikan" : "1.Kerusakan kabel antara unit outdoor 2.Kerusakan pengaturan switch unit luar ruangan 3.Kerusakan kabel antara outdoor – unit penyimpanan termal"
+    },
+    {
+        "kode" : "U8",
+        "penyebab" : "Kerusakan transmisi antara pengendali jarak jauh",
+        "perbaikan" : "1.Kerusakan pengendali remote main / sub pengaturan 2.Kerusakan remote kontrol wiring 3.Kerusakan remote kontrol PCB"
+    }
+]

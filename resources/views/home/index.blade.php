@@ -142,14 +142,14 @@
         <div class="d-flex align-items-center">
           <div class="">
             <p class="mb-1">Data AC Tireg 7</p>
-            <h6 class="mb-0">Total <i class="bi bi-arrow-right"></i> 200 Unit</h6>
+        <h6 class="mb-0">Total <i class="bi bi-arrow-right"></i> {{$countData}} Unit</h6>
           </div>
           <div class="ms-auto fs-2 text-primary">
             <i class="bi bi-table"></i>
           </div>
         </div>
         <div class="border-top my-2"></div>
-        <a href="/ac" class="text-view"><small class="mb-0"><span class="text-primary"><i class="bi bi-eye"></i></span> View Data</small></a>
+        <a href="#" class="text-view"><small class="mb-0"><span class="text-primary"><i class="bi bi-eye"></i></span> Lihat</small></a>
       </div>
     </div>
    </div>
@@ -158,15 +158,15 @@
       <div class="card-body">
         <div class="d-flex align-items-center">
           <div class="">
-            <p class="mb-1">Data Trash AC</p>
-            <h6 class="mb-0">3 unit</h6>
+            <p class="mb-1">Data AC Yang Belum di Mainten</p>
+            <h6 class="mb-0">{{$jadwalCuci}} Unit</h6>
           </div>
           <div class="ms-auto fs-2 text-danger">
-            <i class="bi bi-trash"></i>
+            <i class="bi bi-gear"></i>
           </div>
         </div>
         <div class="border-top my-2"></div>
-        <a href="/ac/trash" class="text-danger"><small class="mb-0"><span class="text-danger"><i class="bi bi-trash"></i></span> Delete Trash</small></a>
+        <a href="#" class="text-danger"><small class="mb-0"><span class="text-danger"><i class="bi bi-eye"></i></span> Lihat</small></a>
       </div>
     </div>
    </div>
@@ -176,14 +176,14 @@
         <div class="d-flex align-items-center">
           <div class="">
             <p class="mb-1">Total Maintenance</p>
-            <h6 class="mb-0">4 unit total AC yang di maintenance dalam 2023 tahun.</h6>
+            <h6 class="mb-0">{{ $kal }} unit total AC yang di maintenance dalam {{ $kalTahun }} tahun.</h6>
           </div>
           <div class="ms-auto fs-2 text-primary">
             <i class="bi bi-hammer"></i>
           </div>
         </div>
         <div class="border-top my-2"></div>
-        <small class="mb-0 text-primary"><span class="text-primary"><i class="bi bi-gear"></i></span> Data Maint AC</small>
+        <small class="mb-0 text-primary"><span class="text-primary"><i class="bi bi-eye"></i></span> Lihat</small>
       </div>
     </div>
    </div>
@@ -192,15 +192,15 @@
       <div class="card-body">
         <div class="d-flex align-items-center">
           <div class="">
-            <p class="mb-1">Semua perangkat AC Normal</p>
-            <h6 class="mb-0">Awesome!</h6>
+            <p class="mb-1">{{ $countAcRusak == 0 ? 'Semua perangkat AC Normal' : 'Perlu diperhatikan' }}</p>
+            <h6 class="mb-0">{{ $countAcRusak == 0 ? 'Awesome!' :  $countAcRusak . ' ' . 'Unit AC yang masih tidak normal.'}}</h6>
           </div>
           <div class="ms-auto fs-2 text-danger">
             <i class="bi bi-gear"></i>
           </div>
         </div>
         <div class="border-top my-2"></div>
-        <small class="mb-0 text-danger"><span class="text-danger"><i class="bi bi-gear"></i></span> Data AC tidak aktif</small>
+        <small class="mb-0 text-danger"><span class="text-danger"><i class="bi bi-eye"></i></span> Lihat</small>
       </div>
     </div>
    </div>
@@ -219,7 +219,7 @@
           </div>
         </div>
         <div class="border-top my-2"></div>
-        <a href="/dashboard/cctv"><small class="mb-0 text-info"><span class="text-info"><i class="bi bi-camera-video"></i></span> View Data</small></a>
+        <a href="/dashboard/cctv"><small class="mb-0 text-info"><span class="text-info"><i class="bi bi-eye"></i></span> Lihat</small></a>
       </div>
     </div>
    </div>
@@ -264,7 +264,7 @@
         <div class="d-flex align-items-center">
           <div class="">
             <p class="mb-1">Users Registration</p>
-            <h4 class="mb-0">3</h4>
+            <h4 class="mb-0">{{$countUsers}}</h4>
           </div>
           <div class="ms-auto fs-2 text-info">
             <i class="bi bi-people"></i>
@@ -281,8 +281,7 @@
 <div class="col">
     <div class="card mt-3">
       <div class="card-body">
-        <p data-period="1000"><span class="title_run" data-period="3000"
-          data-type='["Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus asperiores vel est facere hic laboriosam possimus sint earum neque nostrum? Dolorum nam a consequatur illum quidem magnam eum ipsam asperiores. Saepe libero adipisci nihil laborum, pariatur repellat error omnis autem obcaecati illo suscipit corrupti atque recusandae iste, accusantium rerum corporis."]'></span></p>
+          <div id="typing-effect"></div>
       </div>
   </div>
 </div>
@@ -442,68 +441,50 @@
     });
     </script>
 
-
-
-
 <script>
-  var textType = function(el, runText, periode) {
-      this.runText = runText;
-      this.el = el;
-      this.loopNum = 0;
-      this.periode = parseInt(periode, 10) || 1000;
-      this.txt = ' ';
-      this.tick();
-      this.isDeleting = false;
-  };
-  textType.prototype.tick = function() {
-      var i = this.loopNum % this.runText.length;
-      var fullText = this.runText[i];
-      if (this.isDeleting) {
-          this.txt = fullText.substring(0, this.txt.length - 1);
-      } else {
-          this.txt = fullText.substring(0, this.txt.length + 1);
-      }
+    function textTypingEffect(element, texts, delay) {
+    var currentText = '';
+    var currentIndex = 0;
+    var isDeleting = false;
 
-      this.el.innerHTML = '<span class="rtx">' + this.txt + '</span>';
-      var that = this;
-      var dell = 10 - Math.random() + 50;
-      if (this.isDeleting) {
-          dell /= 1;
-      }
-      if (!this.isDeleting && this.txt === fullText) {
-          dell = this.periode;
-          this.isDeleting = true;
-      } else if (this.isDeleting && this.txt === '') {
-          this.isDeleting = false;
-          this.loopNum++;
-          dell = 500;
-      }
-      setTimeout(function() {
-          that.tick();
-      }, dell);
-  };
-  window.onload = function() {
-      var elements = document.getElementsByClassName('title_run');
-      for (var i = 0; i < elements.length; i++) {
-          var runText = elements[i].getAttribute('data-type');
-          var periode = elements[i].getAttribute('data-period');
-          if (runText) {
-              new textType(elements[i], JSON.parse(runText), periode);
-          }
-      }
+    function type() {
+        var text = texts[currentIndex];
 
-      var css = document.createElement('style');
-      css.type = "text/css";
-      css.innerHTML =
-          ".title_run > .rtx {border-right: 0.05em solid #fff;}";
-      document.body.appendChild(css);
-  };
-  </script>
+        if (isDeleting) {
+            currentText = text.substring(0, currentText.length - currentText.length);
+        } else {
+            currentText = text.substring(0, currentText.length + 1);
+        }
 
+        element.innerHTML = currentText;
 
+        if (isDeleting) {
+            delay = delay / 1; // Penundaan saat penghapusan teks
+        }
 
+        if (!isDeleting && currentText === text) {
+            delay = 100; // Penundaan setelah selesai menulis teks
+            isDeleting = true;
+        } else if (isDeleting && currentText === '') {
+            isDeleting = false;
+            currentIndex = (currentIndex + 1) % texts.length;
+            delay = 100; // Penundaan antara teks berikutnya
+        }
 
+        setTimeout(type, delay);
+    }
 
+    type();
+}
+
+// Penggunaan
+var element = document.getElementById('typing-effect');
+var texts = ['Tulis teks pertama...', 'Tulis teks kedua...', 'Tulis teks ketiga...'];
+var delay = 100; // Penundaan antara setiap karakter
+
+textTypingEffect(element, texts, delay);
+
+</script>
 
 
 

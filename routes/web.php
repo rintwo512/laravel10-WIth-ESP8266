@@ -4,12 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ACController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ToolsController;
 use App\Http\Controllers\chartACController;
 use App\Http\Controllers\ChatBotController;
 use App\Http\Controllers\ControlController;
-use App\Http\Controllers\enerTrackController;
 use App\Http\Controllers\MembersController;
-use App\Http\Controllers\ToolsController;
+use App\Http\Controllers\TodoListController;
+use App\Http\Controllers\enerTrackController;
 use App\Http\Controllers\UserSettingController;
 
 /*
@@ -114,4 +115,11 @@ Route::get('/control/suhu', [ControlController::class, "sendSuhuToMCU"]);
 // CHATBOT
 Route::get('/chatbot', [ChatBotController::class, "index"]);
 Route::post('/chatbot/send', [ChatBotController::class, "sendChat"]);
-Route::get('/chatbot/open', [ChatBotController::class, "sendChat2"]);
+
+
+
+// TODO LIST
+Route::get('/todolist', [TodoListController::class, 'index']);
+Route::post('/todolist/add', [TodoListController::class, 'store']);
+Route::put('/todolist/update/{id}', [TodoListController::class, 'updates']);
+Route::delete('/todolist/delete/{id}', [TodoListController::class, 'destroy']);

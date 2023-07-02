@@ -17,10 +17,11 @@ class ChatBotController extends Controller
 
     public function sendChat(Request $request)
     {
+        $inputText = $request->input('input');
         $result = OpenAI::completions()->create([
-            'max_tokens' => 2048,
+            'max_tokens' => 100,
             'model' => 'text-davinci-003',
-            'prompt' => $request->input
+            'prompt' => $inputText
         ]);
 
         $response = array_reduce(
@@ -32,23 +33,4 @@ class ChatBotController extends Controller
         return $response;
     }
 
-    public function sendChat2(Request $request)
-    {
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer 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',
-            'Content-Type' => 'application/json',
-        ])->post('https://api.openai.com/v1/engines/text-davinci-003/completions', [
-            'max_tokens' => 2048,
-            'prompt' => 'siapa kamu',
-        ]);
-
-        $responseData = $response->json();
-
-
-
-
-        // Access the desired data from the response
-        $chatbotResponse = $responseData['choices'][0]['text'];
-        dd($chatbotResponse);
-    }
 }

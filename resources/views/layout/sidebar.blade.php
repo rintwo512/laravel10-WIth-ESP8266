@@ -9,17 +9,27 @@
         </div>
         <ul class="nav nav-pills flex-column">
             <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Home">
-                <button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-home" type="button"><i
+                <a href="{{ url('/home') }}">
+                <button class="nav-link {{ Request::is('home*') ? 'active' : '' }}" data-bs-toggle="pill" data-bs-target="#pills-home" type="button"><i
                         class="bi bi-house-door-fill"></i></button>
+                </a>
             </li>
             <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Chatbot">
-                <a href="{{ url('/chatbot') }}" class="{{ Request::is('/chatbot*') ? 'active' : '' }}">
-                    <button type="button" class="nav-link"><i style="font-size: 20px" class='bx bxl-android'></i></button>
+                <a href="{{ url('/chatbot') }}">
+                    <button type="button" class="nav-link {{ Request::is('chatbot*') ? 'active' : '' }}"><i style="font-size: 20px"
+                            class='bx bxl-android'></i></button>
                 </a>
+            </li>
+            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Todo List">
+                <a href="{{ url('/todolist') }}">
+                    <button type="button" class="nav-link {{ Request::is('todolist*') ? 'active' : '' }}"><i style="font-size: 20px"
+                            class='bi bi-list-task'></i></button>
+                </a>
+
             </li>
             <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Menu">
                 <button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-application" type="button"><i
-                        class="bi bi-grid-fill"></i></button>
+                        class="bi bi-server"></i></button>
             </li>
             @can('admin')
                 <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Menu Admin">
@@ -46,7 +56,7 @@
             <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Log Out" id="logSidebar">
                 <form action="{{ url('logout/' . auth()->user()->id) }}" method="post">
                     @csrf
-                    <button type="button" id="btnLog1" class="nav-link"><i
+                    <button type="button" id="btnLog1" class="nav-link {{ Request::is('logout*') ? 'active' : '' }}"><i
                             class="bi bi-box-arrow-in-right"></i></button>
                 </form>
             </li>
@@ -54,21 +64,11 @@
     </div>
     <div class="textmenu">
         <div class="brand-logo">
-            <img src="{{ asset('assets/images/r-app.png') }}" style="margin-left: 10px" width="160" alt="" />
+            <img src="{{ asset('assets/images/r-app.png') }}" style="margin-left: 10px" width="160"
+                alt="" />
         </div>
         <div class="tab-content">
-            <div class="tab-pane fade" id="pills-home">
-                <div class="list-group list-group-flush">
-                    <div class="list-group-item">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-0">Dashboard</h5>
-                        </div>
-                    </div>
-                    <a href="{{ url('/home') }}"
-                        class="list-group-item {{ Request::is('/home*') ? 'active' : '' }}"><i
-                            class="bi bi-house-door"></i> Home</a>
-                </div>
-            </div>
+
             <div class="tab-pane fade" id="pills-application">
                 <div class="list-group list-group-flush">
                     <div class="list-group-item">
@@ -92,7 +92,8 @@
                             <h5 class="mb-0">Menu Admin</h5>
                         </div>
                     </div>
-                    <a href="{{ url('/members') }}" class="list-group-item {{ Request::is('/members*') ? 'active' : '' }}"><i
+                    <a href="{{ url('/members') }}"
+                        class="list-group-item {{ Request::is('/members*') ? 'active' : '' }}"><i
                             class="bi bi-person-lines-fill"></i> Data Users</a>
 
                     <a href="javascript:void(0)" class="list-group-item" data-bs-toggle="modal"
@@ -211,10 +212,12 @@
                         class="list-group-item {{ Request::is('/tools/cropimage*') ? 'active' : '' }}"><i
                             class="bi bi-gear-wide"></i> Cropping Image</a>
 
-                    <a href="{{ url('/tools/rgbcolor') }}" class="list-group-item {{ Request::is('/tools/rgbcolor*') ? 'active' : '' }}"><i
+                    <a href="{{ url('/tools/rgbcolor') }}"
+                        class="list-group-item {{ Request::is('/tools/rgbcolor*') ? 'active' : '' }}"><i
                             class="bi bi-gear-wide"></i> RGB Color Generator</a>
 
-                    <a href="{{ url('/tools/jwt') }}" class="list-group-item {{ Request::is('/tools/jwt*') ? 'active' : '' }}"><i
+                    <a href="{{ url('/tools/jwt') }}"
+                        class="list-group-item {{ Request::is('/tools/jwt*') ? 'active' : '' }}"><i
                             class="bi bi-gear-wide"></i> JWT Generator</a>
                 </div>
             </div>

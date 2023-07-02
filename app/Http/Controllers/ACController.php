@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\AC;
+use App\Models\ChartAC;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Exports\DataACExportExcel;
-use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ACController extends Controller
 {
@@ -16,6 +17,8 @@ class ACController extends Controller
      */
     public function index()
     {
+
+
         return view('dataAC.index', [
             'title' => 'Data AC',
             'data' => AC::all()
@@ -156,6 +159,29 @@ class ACController extends Controller
         if ($request->seri_outdoor != $old->seri_outdoor) {
             $validateNewData = $request->validate($ruleSeri);
         }
+
+        if ($request->tgl_maintenance != $old->tgl_maintenance) {
+            $iniBulan = Carbon::now()->format("F");
+            $tahunIni = Carbon::now()->format("Y");
+
+            $chartAc = ChartAC::where('bulan', $iniBulan)
+                              ->where('tahun', $tahunIni)
+                              ->first();
+
+            if ($chartAc) {
+                $chartAc->total++;
+                $chartAc->save();
+            } else {
+                ChartAC::create([
+                    'tahun' => $tahunIni,
+                    'bulan' => $iniBulan,
+                    'total' => 1,
+                ]);
+            }
+        }
+
+
+
 
 
         $validateNewData =

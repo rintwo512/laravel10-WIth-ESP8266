@@ -120,10 +120,10 @@ $("#button-submit").on("click", function(){
 
 
     $.ajax({
-        type: "post",
-        url: "{{ url('/chatbot/send') }}",
+        method: "POST", // Ubah metode GET menjadi POST
+        url: "{{ URL::to('/chatbot/send') }}",
         data: {
-            "input": $val,
+            "input" : $val,
             "_token": csrfToken
         },
         success: function(data) {

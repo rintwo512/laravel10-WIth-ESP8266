@@ -114,7 +114,7 @@
             <select class="form-select" id="jenis" required name="jenis">
                 <option selected disabled value="">--Select--</option>
                 <option value="Inverter">Inverter</option>
-                <option value="Non-inverter">Non-Inverter</option>
+                <option value="Non-Inverter">Non-Inverter</option>
             </select>
           </div>
           <div class="col-md-4 optRefrigerant">

@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\ChartAC;
 use App\Models\HomeModel;
+use App\Models\TodoModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -17,6 +18,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $todos = TodoModel::all();
 
         $threeMonthsAgo = Carbon::now()->subMonths(3)->format('Y-m-d H:i');
         // dd($threeMonthsAgo);
@@ -45,7 +47,8 @@ class HomeController extends Controller
                 'countUsers' => User::count(),
                 'kal' => $kal,
                 'kalTahun' => $kalTahun,
-                'countAcRusak' => $countAcRusak
+                'countAcRusak' => $countAcRusak,
+                'todos' => $todos
             ]);
     }
 

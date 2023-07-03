@@ -1,6 +1,24 @@
 @extends('layout.main')
 
 @section('content')
+    @php
+        use Carbon\Carbon;
+
+        // $createdAt = auth()->user()->created_at;
+        // $diffInDays = Carbon::parse($createdAt)->diffInDays();
+
+        // if ($diffInDays == 0) {
+        //     $formattedTime = 'Hari ini';
+        // } elseif ($diffInDays == 1) {
+        //     $formattedTime = 'Kemarin';
+        // } else {
+        //     $formattedTime = $diffInDays . ' hari yang lalu';
+        // }
+
+        // echo $formattedTime;
+
+    @endphp
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <div class="card">
         <div class="card-body">
@@ -22,16 +40,20 @@
                 @foreach ($data as $todo)
                     <div class="col-12  {{ $todo->completed ? 'completed' : '' }}" data-id="{{ $todo->id }}">
                         <div class="pb-3 todo-item">
+                            <span id="dataTanggal"
+                                data-tanggal="{{ Carbon::parse($todo->created_at)->diffForHumans() }}">{{ Carbon::parse($todo->created_at)->diffForHumans() }}</span>
                             <div class="input-group">
                                 <div class="input-group-text">
                                     <input type="checkbox" class="toggle-completed" {{ $todo->completed ? 'checked' : '' }}>
                                 </div>
                                 <input type="text" readonly="" class="form-control false"
                                     aria-label="Text input with checkbox" value="{{ $todo->title }}">
-                                    @if ($todo->title != "Ini adalah contoh todo list!")
+
+                                @if ($todo->title != 'Ini adalah contoh todo list!')
                                 <button class="btn btn-outline-secondary bg-danger text-white delete-todo"
-                                    id="button-addon2">X</button>
-                                    @endif
+                                id="button-addon2">X</button>
+                                @endif
+                                
                             </div>
                         </div>
                     </div>
@@ -39,12 +61,10 @@
             </div>
         </div>
     </div>
-    </div>
-    </div>
+
 
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
 
-    {{-- <script src="{{ asset('assets/js/todo.js')}}"></script> --}}
     <script>
         $(document).ready(function() {
             // Menangani penambahan to-do
@@ -53,6 +73,7 @@
                 e.preventDefault();
 
                 var title = $('input[name="title"]').val();
+                $dataTanggal = $("#dataTanggal").data("tanggal");
 
                 $.ajax({
                     url: "{{ url('/todolist/add') }}",
@@ -67,7 +88,9 @@
                         if (response.success) {
                             var nextId = $('#todo-list').data('next-id');
                             var todo = '<div class="col-12" data-id="' + nextId + '">' +
-                                '<div class="pb-3 todo-item">' +
+                                '<div class="pb-3 todo-item"><span id="dataTanggal" data-tanggal="' +
+                                "{{ Carbon::parse(date('Y-m-d H:i:s'))->diffForHumans() }}" + '">' +
+                                "{{ Carbon::parse(date('Y-m-d H:i:s'))->diffForHumans() }}" + '</span>' +
                                 '<div class="input-group">' +
                                 '<div class="input-group-text">' +
                                 '<input type="checkbox" class="toggle-completed">' +
@@ -78,6 +101,7 @@
                                 '</div>' +
                                 '</div>' +
                                 '</div>';
+
 
                             $('#todo-list').append(todo);
                             $('input[name="title"]').val('');

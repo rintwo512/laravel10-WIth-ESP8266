@@ -9,5 +9,12 @@ class ChartAC extends Model
 {
     use HasFactory;
     protected $table = 'chartac';
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'tahun',
+        'bulan',
+        'total'
+    ];
+
+    // public $timestamps = false;
+
 }

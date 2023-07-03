@@ -40,7 +40,9 @@
 
             <a href="{{ url('/ac/listmainten') }}" class="mb-0 text-uppercase btn btn-info btn-sm"><i style="color:white" class="bi bi-card-checklist"></i></a>
 
+            @can('admin')
             <a href="{{ url('ac/trash') }}" class="mb-0 text-uppercase btn btn-secondary btn-sm"><i class="bi bi-trash-fill"></i></a>
+            @endcan
 
             <div class="col-md-4 mt-3">
               <div class="input-group mb-3">

@@ -111,11 +111,33 @@ class ACController extends Controller
      */
     public function show(AC $aC, $id)
     {
+
         return view('dataAC.update', [
             'title' => 'Update Data AC',
             'ac' => AC::find($id),
             'dataall' => AC::all()
         ]);
+
+
+        // $userRole = auth()->user()->role;
+
+        // // Memeriksa jika role bukan admin
+        // if ($userRole !== 1) {
+        //     $disabledFields = ['wing', 'lantai', 'ruangan', 'merk', 'type', 'jenis', 'kapasitas', 'refrigerant', 'voltage', 'status', 'catatan', 'kerusakan', 'keterangan', 'tgl_pemasangan', 'petugas_pemasangan', 'seri_indoor', 'seri_outdoor'];
+
+        //     return view('dataAC.update', [
+        //         'title' => 'Update Data AC',
+        //         'ac' => AC::find($id),
+        //         'dataall' => AC::all(),
+        //         'disabledFields' => $disabledFields
+        //     ]);
+        // } else {
+        //     return view('dataAC.update', [
+        //         'title' => 'Update Data AC',
+        //         'ac' => AC::find($id),
+        //         'dataall' => AC::all()
+        //     ]);
+        // }
     }
 
     /**
@@ -132,6 +154,7 @@ class ACController extends Controller
     public function update(Request $request, AC $aC, $id)
     {
         $old = AC::find($id);
+
 
         $rules = [
             'wing' => 'required',
@@ -165,8 +188,8 @@ class ACController extends Controller
             $tahunIni = Carbon::now()->format("Y");
 
             $chartAc = ChartAC::where('bulan', $iniBulan)
-                              ->where('tahun', $tahunIni)
-                              ->first();
+                ->where('tahun', $tahunIni)
+                ->first();
 
             if ($chartAc) {
                 $chartAc->total++;
@@ -216,15 +239,6 @@ class ACController extends Controller
             ];
         $newData = AC::where('id', $id)
             ->update($validateNewData);
-
-        // if ($newData > 0) {
-        //     $dateNow = Carbon::now();
-        //     $getDataUpdate = Ac::where('user_updated_time', $dateNow)->first();
-        //     $pesan = '*Tanggal Update* ' . '*' . $dateNow . '*' . "\n"
-        //         . "*Data AC yang telah diupdate*\n\n" . "Di update oleh : " . $getDataUpdate->user_updated . "\nWing : " . $getDataUpdate->wing . "\nLantai : " . $getDataUpdate->lantai . "\nRuangan : " . $getDataUpdate->ruangan . "\nMerk : " . $getDataUpdate->merk . "\nType : " . $getDataUpdate->type . "\nStatus : " . $getDataUpdate->status . "\nDi maintenance : " . Carbon::parse($getDataUpdate->tgl_maintenance)->diffForHumans() . "\nCatatan : " . $getDataUpdate->catatan;
-        //     $pesanEncode = urlencode($pesan);
-        //     $response = Http::get('https://api.telegram.org/bot5372613320:AAHJNa6n0C68VZFWIDcRckIWSjP_UCLiGBU/sendMessage?parse_mode=markdown&chat_id=-532291265&text=' . $pesanEncode);
-        // }
 
         return redirect('/ac')->with('success', 'Data berhasil di ubah!');
     }
@@ -293,7 +307,7 @@ class ACController extends Controller
         // dd($threeMonthsAgo);
 
         $dataAC = AC::where(DB::raw("STR_TO_DATE(tgl_maintenance, '%Y-%m-%d %H:%i')"), '<', $threeMonthsAgo)
-             ->get();
+            ->get();
 
         return view('dataAC.listMainten', [
             'title' => 'List Maintenance AC',

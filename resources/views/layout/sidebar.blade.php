@@ -10,29 +10,25 @@
         <ul class="nav nav-pills flex-column">
             <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Home">
                 <a href="{{ url('/home') }}">
-                <button class="nav-link {{ Request::is('home*') ? 'active' : '' }}" data-bs-toggle="pill" data-bs-target="#pills-home" type="button"><i
-                        class="bi bi-house-door-fill"></i></button>
+                    <button class="nav-link {{ Request::is('home*') ? 'active' : '' }}" data-bs-toggle="pill"
+                        data-bs-target="#pills-home" type="button"><i class="bi bi-house-door-fill"></i></button>
                 </a>
             </li>
-            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Chatbot">
-                <a href="{{ url('/chatbot') }}">
-                    <button type="button" class="nav-link {{ Request::is('chatbot*') ? 'active' : '' }}"><i style="font-size: 20px"
-                            class='bx bxl-android'></i></button>
-                </a>
-            </li>
-            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Todo List">
-                <a href="{{ url('/todolist') }}">
-                    <button type="button" class="nav-link {{ Request::is('todolist*') ? 'active' : '' }}"><i style="font-size: 20px"
-                            class='bi bi-list-task'></i></button>
-                </a>
+            @can('admin')
+                <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Todo List">
+                    <a href="{{ url('/todolist') }}">
+                        <button type="button" class="nav-link {{ Request::is('todolist*') ? 'active' : '' }}"><i
+                                style="font-size: 20px" class='bi bi-list-task'></i></button>
+                    </a>
 
-            </li>
-            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Menu">
+                </li>
+            @endcan
+            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Data Perangkat">
                 <button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-application" type="button"><i
                         class="bi bi-server"></i></button>
             </li>
             @can('admin')
-                <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Menu Admin">
+                <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Data Users">
                     <button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-adminMenu" type="button"><i
                             class="bi bi-person-plus-fill"></i></button>
                 </li>
@@ -53,10 +49,17 @@
                 <button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-settings" type="button"><i
                         class="bi bi-gear-fill"></i></button>
             </li>
+            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Chatbot">
+                <a href="{{ url('/chatbot') }}">
+                    <button type="button" class="nav-link {{ Request::is('chatbot*') ? 'active' : '' }}"><i
+                            style="font-size: 20px" class='bx bxl-android'></i></button>
+                </a>
+            </li>
             <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Log Out" id="logSidebar">
                 <form action="{{ url('logout/' . auth()->user()->id) }}" method="post">
                     @csrf
-                    <button type="button" id="btnLog1" class="nav-link {{ Request::is('logout*') ? 'active' : '' }}"><i
+                    <button type="button" id="btnLog1"
+                        class="nav-link {{ Request::is('logout*') ? 'active' : '' }}"><i
                             class="bi bi-box-arrow-in-right"></i></button>
                 </form>
             </li>
@@ -76,12 +79,9 @@
                             <h5 class="mb-0">Database</h5>
                         </div>
                     </div>
-                    <a href="{{ url('/ac') }}" class="list-group-item {{ Request::is('/ac*') ? 'active' : '' }}"><i
+                    <a href="{{ url('/ac') }}"
+                        class="list-group-item {{ Request::is('/ac*') ? 'active' : '' }}"><i
                             class="bi bi-server"></i> Data AC</a>
-
-                    <a href="/dashboard/cctv"
-                        class="list-group-item list-group-item {{ Request::is('dashboard/cctv*') ? 'active' : '' }}"><i
-                            class="bi bi-server"></i> Data CCTV</a>
 
                 </div>
             </div>

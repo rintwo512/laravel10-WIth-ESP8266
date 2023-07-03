@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->integer('power');
             $table->integer('suhu');
-            $table->integer('cool');
-            $table->integer('fan');
-            $table->integer('dry');
-            $table->integer('fanauto');
-            $table->integer('fanhigh');
-            $table->string('statuspower');
+            $table->integer('cool')->nullable();
+            $table->integer('fan')->nullable();
+            $table->integer('dry')->nullable();
+            $table->integer('fanauto')->nullable();
+            $table->integer('fanhigh')->nullable();
+            $table->string('statuspower')->nullable();
             $table->timestamps();
         });
     }

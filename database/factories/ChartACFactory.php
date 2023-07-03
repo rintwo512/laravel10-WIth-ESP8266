@@ -16,10 +16,38 @@ class ChartACFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            'tahun' => "2022",
-            'bulan' => $this->faker->monthName(),
-            'total' => mt_rand(1, 8)
-        ];
+
+        // $bulan = [
+        //     'January',
+        //     'February',
+        //     'March',
+        //     'April',
+        //     'May',
+        //     'June',
+        //     'July',
+        //     'August',
+        //     'September',
+        //     'October',
+        //     'November',
+        //     'December'
+        // ];
+
+        // $faker = \Faker\Factory::create();
+        // $faker->unique(true);
+
+        // $dataChart = [];
+
+        // for ($i = 0; $i < 12; $i++) {
+        //     $index = $i % 12; // Menggunakan modulo untuk memastikan indeks tetap berada dalam rentang 0-11
+        //     $dataChart[] = [
+        //         'tahun' => '2022',
+        //         'bulan' => $bulan[$index],
+        //         'total' => $faker->numberBetween(1, 8)
+        //     ];
+        // }
+
+        // return $dataChart;
+
+        return [];
     }
 }

@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ACController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\AcaraController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ToolsController;
 use App\Http\Controllers\chartACController;
@@ -49,6 +51,8 @@ Route::delete('ac/trash/{id}', [ACController::class, 'restore'])->middleware('au
 Route::get('/ac/update/{id}', [ACController::class, 'show'])->middleware('auth');
 Route::post('/ac/update/{id}', [ACController::class, 'update'])->middleware('auth');
 Route::get('/ac/range/{nilai}', [ACController::class, 'queryRangeAc'])->middleware('auth');
+Route::get('/ac/dataacbaru/{data}', [ACController::class, 'queryDataAcBaru'])->middleware('auth');
+Route::get('/ac/datadetailacbaru/{id}', [ACController::class, 'dataDetailAcBaru'])->middleware('auth');
 Route::get('/ac/create', [ACController::class, 'create'])->middleware('auth');
 Route::post('/ac/create', [ACController::class, 'store'])->middleware('auth');
 Route::get('/ac/export', [ACController::class, 'exportDataAc'])->middleware('auth');
@@ -98,7 +102,9 @@ Route::get('/tools/rgbcolor', [ToolsController::class, "rgbColor"]);
 Route::get('/tools/jwt', [ToolsController::class, "jwt"]);
 
 
-
+// MENU MANAGEMENT
+Route::get('/members/{user}/menus', [MenuController::class, 'editMenus'])->name('members.menus');
+Route::post('/members/{user}/menus', [MenuController::class, 'updateMenus'])->name('members.update-menus');
 
 // ENERTRACK
 Route::get('/enertrack/monitor', [enerTrackController::class, "monitor"]);
@@ -123,3 +129,9 @@ Route::get('/todolist', [TodoListController::class, 'index']);
 Route::post('/todolist/add', [TodoListController::class, 'store']);
 Route::put('/todolist/update/{id}', [TodoListController::class, 'updates']);
 Route::delete('/todolist/delete/{id}', [TodoListController::class, 'destroy']);
+
+
+// ACARA
+Route::resource('/event', AcaraController::class);
+Route::post('/event/update', [AcaraController::class, 'update']);
+Route::get('/event/datarangeevent/{data}', [AcaraController::class, 'rangeEvent']);

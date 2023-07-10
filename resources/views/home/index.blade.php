@@ -130,6 +130,7 @@
             /* warna latar belakang ketika checkbox dipilih */
             border-radius: 100%;
         }
+       
     </style>
 
 
@@ -148,11 +149,12 @@
 
         {{-- Chart --}}
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        @can('admin')
         <div class="col-md-2 mb-3">
             <select class="form-select" name="tahun" id="tahun">
                 <option value="">--Select--</option>
                 @foreach ($list_tahun as $tahun)
-                    <option value="{{ $tahun->tahun }}">{{ $tahun->tahun }}</option>
+                <option value="{{ $tahun->tahun }}">{{ $tahun->tahun }}</option>
                 @endforeach
             </select>
         </div>
@@ -163,6 +165,7 @@
                 </div>
             </div>
         </div>
+        @endcan
         {{-- End Chart --}}
 
 
@@ -170,7 +173,7 @@
 
     <div class="card">
         <div class="card-body">
-            <h4 class="mb-0">To Do List : <span id="typing-effect"></span></h4>
+            <h4 class="mb-0">Todo List : <span id="typing-effect"></span></h4>
             <hr>
             <div class="form-row mt-3" id="todo-list">
                 @foreach ($todos as $todo)
@@ -276,6 +279,7 @@
         {{-- END AC --}}
 
         {{-- USER --}}
+        @can('admin')
         <div class="col-12">
             <div class="card radius-10">
                 <div class="card-body">
@@ -294,6 +298,7 @@
                 </div>
             </div>
         </div>
+        @endcan
         {{-- END USER --}}
     </div>
 

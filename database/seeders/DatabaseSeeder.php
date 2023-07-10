@@ -4,8 +4,10 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\AC;
+use App\Models\Menu;
 use App\Models\User;
 use App\Models\ChartAC;
+use App\Models\Submenu;
 use App\Models\MSession;
 use App\Models\TodoModel;
 use App\Models\ControlModel;
@@ -78,11 +80,11 @@ class DatabaseSeeder extends Seeder
         MSession::factory(1)->create();
         AC::factory(250)->create();
 
-        TodoModel::create(['title' => 'Ini adalah contoh todo list!','completed' => 1]);
+        TodoModel::create(['title' => 'Ini adalah contoh todo list!', 'completed' => 1]);
 
-        ControlModel::create([ 'power' => 0, 'suhu' => 22 ]);
+        ControlModel::create(['power' => 0, 'suhu' => 22]);
 
-        enerTrackModel::create([ 'suhu' => 22, 'kelembapan' => 65, ]);
+        enerTrackModel::create(['suhu' => 22, 'kelembapan' => 65,]);
 
         User::create([
             'name' => 'Meong',
@@ -93,6 +95,89 @@ class DatabaseSeeder extends Seeder
             'role' => 1,
             'is_active' => 1
         ]);
+        User::create([
+            'name' => 'Cat',
+            'nik' => "15920012",
+            'image' => 'default.png',
+            'password' => bcrypt('user'),
+            'status_login' => 'offline',
+            'role' => 0,
+            'is_active' => 0
+        ]);
+        User::create([
+            'name' => 'Dog',
+            'nik' => "15920013",
+            'image' => 'default.png',
+            'password' => bcrypt('user'),
+            'status_login' => 'offline',
+            'role' => 0,
+            'is_active' => 0
+        ]);
+
+        Menu::create([
+            'name' => 'Dashboard',
+            'icon' => 'bi bi-house-door-fill',
+            'slug' => 'dashboard',
+            'data_target' => '#pills-dashboards',
+            'status' => true
+        ]);
+        Menu::create([
+            'name' => 'Todo List',
+            'icon' => 'bi bi-list-task',
+            'slug' => 'todolist',
+            'data_target' => '#pills-todolist',
+            'status' => true
+        ]);
+        Menu::create([
+            'name' => 'Data Perangkat',
+            'icon' => 'bi bi-server',
+            'slug' => 'application',
+            'data_target' => '#pills-application',
+            'status' => true
+        ]);
+        Menu::create([
+            'name' => 'Data Users',
+            'icon' => 'bi bi-person-plus-fill',
+            'slug' => 'adminMenu',
+            'data_target' => '#pills-adminMenu',
+            'status' => true
+        ]);
+        Menu::create([
+            'name' => 'Data Charts',
+            'icon' => 'bi bi-bar-chart-steps',
+            'slug' => 'charts',
+            'data_target' => '#pills-charts',
+            'status' => true
+        ]);
+        Menu::create([
+            'name' => 'EnerTrack',
+            'icon' => 'bi bi-wrench pl-10',
+            'slug' => 'enertrack',
+            'data_target' => '#pills-enertrack',
+            'status' => true
+        ]);
+        Menu::create([
+            'name' => 'Tools',
+            'icon' => 'bi bi-tools pl-10',
+            'slug' => 'tools',
+            'data_target' => '#pills-tools',
+            'status' => true
+        ]);
+        Menu::create([
+            'name' => 'Chatbot',
+            'icon' => 'bx bxl-android',
+            'slug' => 'chatbot',
+            'data_target' => '#pills-chatbot',
+            'status' => true
+        ]);
+        Menu::create([
+            'name' => 'Settings',
+            'icon' => 'bi bi-gear-fill',
+            'slug' => 'settings',
+            'data_target' => '#pills-settings',
+            'status' => true
+        ]);
+
 
     }
 }

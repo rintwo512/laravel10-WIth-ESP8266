@@ -42,7 +42,7 @@
                 <thead>
                   <tr>
                     <th>No.</th>
-                    <th>Assets</th>
+                    <th>Asset</th>
                     <th>ID</th>
                     <th>Wing</th>
                     <th>Lantai</th>
@@ -115,7 +115,7 @@
                 <tfoot>
                   <tr>
                     <th>No.</th>
-                    <th>Assets</th>
+                    <th>Asset</th>
                     <th>ID</th>
                     <th>Wing</th>
                     <th>Lantai</th>

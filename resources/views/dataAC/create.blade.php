@@ -21,7 +21,7 @@
             @csrf
           <div class="col-md-4">
             <label for="tgl_pemasangan" class="form-label">Tanggal Pemasangan <small>(optional)</small></label>
-            <input type="text" class="form-control datepicker" name="tgl_pemasangan" id="tgl_pemasangan" value="{{ old('tgl_pemasangan') }}">
+            <input type="text" class="form-control" name="tgl_pemasangan" id="date-time2" value="{{ old('tgl_pemasangan') }}">
           </div>
           <div class="col-md-4">
             <label for="petugas_pemasangan" class="form-label">Petugas Pemasangan <small>(optional)</small></label>

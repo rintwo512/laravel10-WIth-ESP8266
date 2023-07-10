@@ -40,9 +40,9 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->nik }}</td>
                     @if ($user->is_active === 1)
-                    <td>Active</td>
+                    <td class="text-success">Active</td>
                     @else
-                    <td class="bg-danger">Inactive</td>
+                    <td class="text-warning">Pending</td>
                     @endif
                     @if ($user->role === 1)
                     <td>Admin</td>
@@ -54,21 +54,21 @@
                            @if ($user->name == auth()->user()->name || $user->status_login == 'online')
 
 
-                           <a href="/dashboard/users/{{ $user->id }}" class="text-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Lihat Aktivitas"><i class="bi bi-file-earmark-richtext"></i></a>
+                           <a href="{{ route('members.menus', $user->id) }}" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Update Menu User"><i class="bi bi-card-checklist"></i></a>
 
 
                            @else
                            @if ($user->is_active !=  0)
-                           <a href="/dashboard/users/{{ $user->id }}" class="text-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Lihat Aktivitas"><i class="bi bi-file-earmark-richtext"></i></a>
+                           <a href="{{ route('members.menus', $user->id) }}" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Update Menu User"><i class="bi bi-card-checklist"></i></a>
                            @endif
-                           <a href="javascript:void(0)" class="text-warning" data-bs-toggle="modal" data-bs-target="#modalUpdateUser" id="btnEditUser"
+                           <a href="javascript:void(0)" class="text-info" data-bs-toggle="modal" data-bs-target="#modalUpdateUser" id="btnEditUser"
                             data-iduser="{{ $user->id }}"
                             data-activeuser="{{ $user->is_active }}"
                             data-roleuser="{{ $user->role }}"
-                            data-nameuser="{{ $user->name }}"
-                           ><i class="bi bi-gear"></i></a>
+                            data-nameuser="{{ $user->name }}"><i class="bi bi-gear"></i></a>
 
                            <a href="javascript:void(0)" onclick="delUser({{ $user->id }})" class="text-danger"><i class="bi bi-x-circle-fill"></i></a>
+
 
                            @endif
 

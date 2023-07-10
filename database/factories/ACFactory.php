@@ -36,6 +36,7 @@ class ACFactory extends Factory
         $tgl_maint = ['2023-03-1 19:00:00', '2022-12-5 19:00:00', '2023-04-8 19:00:00', '2023-05-9 19:00:00'];
 
 
+
         return [
             'user_id' => 1,
             'label' => $this->faker->randomDigit(),
@@ -56,7 +57,7 @@ class ACFactory extends Factory
             'status' => $this->faker->randomElement($status),
             'catatan' => "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Culpa numquam cumque eum dolores perferendis odio dignissimos non sed labore iste.",
             'keterangan' => "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Culpa numquam cumque eum dolores perferendis odio dignissimos non sed labore iste.",
-            'tgl_pemasangan' => $this->faker->dateTime(),
+            'tgl_pemasangan' => $this->faker->dateTimeBetween('2022-01-01 00:01:00', '2022-12-31 00:01:05'),
             'petugas_pemasangan' => $this->faker->name(),
             'tgl_maintenance' => $this->faker->randomElement($tgl_maint),
             'petugas_maint' => $this->faker->randomElement($petugasMaint),

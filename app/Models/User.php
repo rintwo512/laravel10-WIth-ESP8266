@@ -3,10 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -42,5 +43,19 @@ class User extends Authenticatable
     public function userAgent()
     {
         return $this->hasOne(MSession::class);
+    }
+
+    public function menus(): BelongsToMany
+    {
+        return $this->belongsToMany(Menu::class, 'menu_user', 'user_id', 'menu_id')
+            ->withPivot('status')
+            ->withTimestamps();
+    }
+
+    public function submenus(): BelongsToMany
+    {
+        return $this->belongsToMany(Submenu::class, 'menu_user', 'user_id', 'menu_id')
+            ->withPivot('status')
+            ->withTimestamps();
     }
 }

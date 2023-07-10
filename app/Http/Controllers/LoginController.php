@@ -53,19 +53,17 @@ class LoginController extends Controller
                     $user->push();
 
                     User::where('id', Auth::user()->id)->update(['user_time_login' => Carbon::now()]);
-                    // User::where('id', Auth::user()->id)->update(['status_login' => 'online']);
-
-                    // $userLogin = User::where('status_login', 'online')->first();
-                    // $pesan = $userLogin->name . " " . $userLogin->status_login . " " . Carbon::parse($userLogin->user_time_login)->diffForHumans();
-                    // $pesanEncode = urlencode($pesan);
-                    // echo Http::get('https://api.telegram.org/bot5372613320:AAHJNa6n0C68VZFWIDcRckIWSjP_UCLiGBU/sendMessage?parse_mode=markdown&chat_id=-532291265&text=' . $pesanEncode);
-
-
 
                     $request->session()->regenerate();
 
 
-                    return redirect()->intended('/home');
+
+                    // Cek role pengguna dan arahkan ke URL yang sesuai
+                    if ($users[0]['role'] == 1) {
+                        return redirect()->intended('/home');
+                    } else if ($users[0]['role'] == 0) {
+                        return redirect()->intended('/ac');
+                    }
                 }
             } else {
 
@@ -96,5 +94,4 @@ class LoginController extends Controller
 
         return redirect('/auth');
     }
-
 }

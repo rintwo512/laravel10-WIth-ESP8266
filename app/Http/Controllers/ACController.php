@@ -143,9 +143,13 @@ class ACController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(AC $aC)
+    public function dataDetailAcBaru($id)
     {
-        //
+        $data = AC::find($id);
+        return view('dataAC.detailacbaru', [
+            'title' => 'Data Detail AC Baru',
+            'data' => $data
+        ]);
     }
 
     /**
@@ -313,5 +317,21 @@ class ACController extends Controller
             'title' => 'List Maintenance AC',
             'data' => $dataAC
         ]);
+    }
+
+    public function queryDataAcBaru($data)
+    {
+        $start = substr($data, 0, 10);
+        $end = substr($data, 13, 24);
+
+        $dataACBaru = AC::whereBetween('tgl_pemasangan', [$start, $end])->get();
+        $countDataACBaru = AC::whereBetween('tgl_pemasangan', [$start, $end])->count();
+        // return response()->json($dataACBaru);
+        $responseData = [
+            'count' => $countDataACBaru,
+            'data' => $dataACBaru
+        ];
+
+        return response()->json($responseData);
     }
 }

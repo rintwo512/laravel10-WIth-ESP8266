@@ -1,5 +1,14 @@
 @php
     use Illuminate\Support\Facades\Request;
+    use App\Models\Menu;
+    use App\Models\Submenu;
+    use App\Models\User;
+
+    $user = auth()->user();
+
+    $menus = Menu::all();
+    $submenus = Submenu::all();
+
 @endphp
 
 <aside class="sidebar-wrapper">
@@ -8,58 +17,20 @@
             <div class="nav-toggle-icon" onclick="setWrapper()"><i class="bi bi-list"></i></div>
         </div>
         <ul class="nav nav-pills flex-column">
-            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Home">
-                <a href="{{ url('/home') }}">
-                    <button class="nav-link {{ Request::is('home*') ? 'active' : '' }}" data-bs-toggle="pill"
-                        data-bs-target="#pills-home" type="button"><i class="bi bi-house-door-fill"></i></button>
-                </a>
-            </li>
-            @can('admin')
-                <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Todo List">
-                    <a href="{{ url('/todolist') }}">
-                        <button type="button" class="nav-link {{ Request::is('todolist*') ? 'active' : '' }}"><i
-                                style="font-size: 20px" class='bi bi-list-task'></i></button>
-                    </a>
+            @foreach ($menus as $menu)
+                @if ($user->role == 1 || in_array($menu->id, $user->menus->pluck('id')->toArray()))
 
-                </li>
-            @endcan
-            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Data Perangkat">
-                <button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-application" type="button"><i
-                        class="bi bi-server"></i></button>
-            </li>
-            @can('admin')
-                <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Data Users">
-                    <button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-adminMenu" type="button"><i
-                            class="bi bi-person-plus-fill"></i></button>
-                </li>
-                <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Charts">
-                    <button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-charts" type="button"><i
-                            class="bi bi-bar-chart-steps"></i></button>
-                </li>
-            @endcan
-            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="EnerTrack">
-                <button type="button" data-bs-toggle="pill" data-bs-target="#pills-enertrack" class="nav-link"><i
-                        class="bi bi-wrench pl-10"></i></button>
-            </li>
-            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Tools">
-                <button type="button" data-bs-toggle="pill" data-bs-target="#pills-tools" class="nav-link"><i
-                        class="bi bi-tools pl-10"></i></button>
-            </li>
-            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Settings">
-                <button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-settings" type="button"><i
-                        class="bi bi-gear-fill"></i></button>
-            </li>
-            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Chatbot">
-                <a href="{{ url('/chatbot') }}">
-                    <button type="button" class="nav-link {{ Request::is('chatbot*') ? 'active' : '' }}"><i
-                            style="font-size: 20px" class='bx bxl-android'></i></button>
-                </a>
-            </li>
+                    <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="{{ $menu->name }}">
+                        <button class="nav-link" data-bs-toggle="pill" data-bs-target="{{ $menu->data_target }}"
+                            type="button"><i class="{{ $menu->icon }}"></i></button>
+                    </li>
+                @endif
+            @endforeach
+
             <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Log Out" id="logSidebar">
                 <form action="{{ url('logout/' . auth()->user()->id) }}" method="post">
                     @csrf
-                    <button type="button" id="btnLog1"
-                        class="nav-link {{ Request::is('logout*') ? 'active' : '' }}"><i
+                    <button type="button" id="btnLog1" class="nav-link"><i
                             class="bi bi-box-arrow-in-right"></i></button>
                 </form>
             </li>
@@ -71,7 +42,32 @@
                 alt="" />
         </div>
         <div class="tab-content">
+            <div class="tab-pane fade" id="pills-dashboards">
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-0">Dashboard</h5>
+                        </div>
+                    </div>
+                    <a href="{{ url('/home') }}"
+                        class="list-group-item {{ Request::is('/home*') ? 'active' : '' }}"><i
+                            class="bi bi-server"></i> Home</a>
 
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-todolist">
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-0">Catatan</h5>
+                        </div>
+                    </div>
+                    <a href="{{ url('/todolist') }}"
+                        class="list-group-item {{ Request::is('/todolist*') ? 'active' : '' }}"><i
+                            class="bi bi-server"></i> Todolist</a>
+
+                </div>
+            </div>
             <div class="tab-pane fade" id="pills-application">
                 <div class="list-group list-group-flush">
                     <div class="list-group-item">
@@ -82,6 +78,9 @@
                     <a href="{{ url('/ac') }}"
                         class="list-group-item {{ Request::is('/ac*') ? 'active' : '' }}"><i
                             class="bi bi-server"></i> Data AC</a>
+                    <a href="{{ url('/event') }}"
+                        class="list-group-item {{ Request::is('/event*') ? 'active' : '' }}"><i
+                            class="bi bi-server"></i> Data Event</a>
 
                 </div>
             </div>
@@ -95,9 +94,6 @@
                     <a href="{{ url('/members') }}"
                         class="list-group-item {{ Request::is('/members*') ? 'active' : '' }}"><i
                             class="bi bi-person-lines-fill"></i> Data Users</a>
-
-                    <a href="javascript:void(0)" class="list-group-item" data-bs-toggle="modal"
-                        data-bs-target="#modalAddUser"><i class="bi bi-person-plus"></i> Add User</a>
                 </div>
             </div>
             <div class="tab-pane fade" id="pills-charts">
@@ -110,6 +106,18 @@
                     <a href="{{ url('/chart/search') }}"
                         class="list-group-item {{ Request::is('/chart/search*') ? 'active' : '' }}"><i
                             class="bi bi-bar-chart-fill"></i> Chart AC</a>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-chatbot">
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-0">AI</h5>
+                        </div>
+                    </div>
+                    <a href="{{ url('/chatbot') }}"
+                        class="list-group-item {{ Request::is('/chatbot*') ? 'active' : '' }}"><i
+                            class="bi bi-person-lines-fill"></i> Chatbot</a>
                 </div>
             </div>
             <div class="tab-pane fade" id="pills-settings">

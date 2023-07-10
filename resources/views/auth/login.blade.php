@@ -40,7 +40,7 @@
                                     <form method="POST" action="{{ url('/auth') }}" class="form-body">
                                         @csrf
                                         <div class="d-flex justify-content-center">
-                                            <img src="{{ asset('assets/images/logo-form.png') }}" alt="">
+                                            <img width="200px" src="{{ asset('assets/images/logo-form2.png') }}" alt="">
                                         </div>
                                         <div class="login-separater text-center mb-4"> <span>myApp</span>
                                             <hr>

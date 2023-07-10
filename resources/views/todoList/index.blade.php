@@ -19,10 +19,11 @@
 
     @endphp
 
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <div class="card">
         <div class="card-body">
-            <h4 class="mb-0">To Do List</h4>
+            <h4 class="mb-0">Todo List</h4>
             <hr>
             <form id="add-todo-form">
                 @csrf
@@ -43,9 +44,11 @@
                             <span id="dataTanggal"
                                 data-tanggal="{{ Carbon::parse($todo->created_at)->diffForHumans() }}">{{ Carbon::parse($todo->created_at)->diffForHumans() }}</span>
                             <div class="input-group">
+
                                 <div class="input-group-text">
                                     <input type="checkbox" class="toggle-completed" {{ $todo->completed ? 'checked' : '' }}>
                                 </div>
+                               
                                 <input type="text" readonly="" class="form-control false"
                                     aria-label="Text input with checkbox" value="{{ $todo->title }}">
 
@@ -53,7 +56,7 @@
                                 <button class="btn btn-outline-secondary bg-danger text-white delete-todo"
                                 id="button-addon2">X</button>
                                 @endif
-                                
+
                             </div>
                         </div>
                     </div>
@@ -95,7 +98,7 @@
                                 '<div class="input-group-text">' +
                                 '<input type="checkbox" class="toggle-completed">' +
                                 '</div>' +
-                                '<input type="text" readonly class="form-control false" aria-label="Text input with checkbox" value="' +
+                                '<input type="text" readonly class="form-control false" value="' +
                                 title + '">' +
                                 '<button class="btn btn-outline-secondary bg-danger text-white delete-todo" id="button-addon2">X</button>' +
                                 '</div>' +
@@ -167,4 +170,6 @@
             });
         });
     </script>
+
+
 @endsection

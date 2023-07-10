@@ -38,7 +38,7 @@
     </div>
     <div class="textmenu">
         <div class="brand-logo">
-            <img src="{{ asset('assets/images/r-app.png') }}" style="margin-left: 10px" width="160"
+            <img src="{{ asset('assets/images/enerlog.png') }}" style="margin-left: 10px" width="160"
                 alt="" />
         </div>
         <div class="tab-content">

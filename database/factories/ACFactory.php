@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,6 +18,7 @@ class ACFactory extends Factory
     public function definition(): array
     {
 
+        $user_id = [1,2,3];
         $status = ['Normal', 'Rusak'];
         $merk = ['Daikin','General','Panasonic','LG','Sharp','Mitshubisi'];
         $lantai = ['Lt1','Lt2','Lt3'];
@@ -35,11 +37,11 @@ class ACFactory extends Factory
         $pipa = ['1/4 + 3/8','1/4 + 1/2','1/4 + 5/8','3/8 + 5/8','3/8 + 3/4','1/2 + 3/4', '1/2 + 7/8', '1/2 + 1 1/2'];
         $tgl_maint = ['2023-03-1 19:00:00', '2022-12-5 19:00:00', '2023-04-8 19:00:00', '2023-05-9 19:00:00'];
 
-
+        $randomString = strtoupper(Str::random(10) . Str::random(5));
 
         return [
-            'user_id' => 1,
-            'label' => $this->faker->randomDigit(),
+            'user_id' => $this->faker->randomElement($user_id),
+            'label' => random_int(100, 999),
             'assets' => $this->faker->randomElement($assets),
             'wing' => $this->faker->randomElement($wing),
             'lantai' => $this->faker->randomElement($lantai),
@@ -61,8 +63,8 @@ class ACFactory extends Factory
             'petugas_pemasangan' => $this->faker->name(),
             'tgl_maintenance' => $this->faker->randomElement($tgl_maint),
             'petugas_maint' => $this->faker->randomElement($petugasMaint),
-            'seri_indoor' => mt_rand(1, 5),
-            'seri_outdoor' => mt_rand(1, 5)
+            'seri_indoor' =>  $randomString,
+            'seri_outdoor' =>  $randomString
         ];
     }
 }

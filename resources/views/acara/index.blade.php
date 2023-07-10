@@ -465,7 +465,7 @@
         <td>${e.waktu_mulai}</td>
         <td>${e.waktu_berakhir}</td>
         <td>${dayDiff} hari ${hoursDiff} jam ${minutesDiff} menit</td>
-        <td>${e.keterangan}</td>
+        <td>${e.keterangan == null ? '' : e.keterangan}</td>
     </tr>`;
 }
 

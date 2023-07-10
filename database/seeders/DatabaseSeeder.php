@@ -24,13 +24,6 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
-
-
         $bulan = [
             'January',
             'February',
@@ -52,7 +45,7 @@ class DatabaseSeeder extends Seeder
             ChartAC::create([
                 'tahun' => $tahun,
                 'bulan' => $namaBulan,
-                'total' => mt_rand(1, 8)
+                'total' => mt_rand(10, 30)
             ]);
         }
 
@@ -72,7 +65,7 @@ class DatabaseSeeder extends Seeder
             ChartAC::create([
                 'tahun' => $tahun2,
                 'bulan' => $namaBulan2,
-                'total' => mt_rand(1, 8)
+                'total' => mt_rand(7, 30)
             ]);
         }
 
@@ -129,7 +122,7 @@ class DatabaseSeeder extends Seeder
             'status' => true
         ]);
         Menu::create([
-            'name' => 'Data Perangkat',
+            'name' => 'Database',
             'icon' => 'bi bi-server',
             'slug' => 'application',
             'data_target' => '#pills-application',

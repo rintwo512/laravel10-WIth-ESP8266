@@ -35,12 +35,12 @@
                             <div class="col-lg-6">
                                 <div class="card-body p-4 p-sm-5">
                                     <h5 class="card-title">Sign In</h5>
-                                    <p class="card-text mb-5">See your growth and get consulting support!</p>
+                                    <p class="card-text mb-5">"Empowering Energy Awareness for a Sustainable Future"</p>
                                     <div class="flashError" data-error="{{ session('loginError') }}"></div>
                                     <form method="POST" action="{{ url('/auth') }}" class="form-body">
                                         @csrf
                                         <div class="d-flex justify-content-center">
-                                            <img width="200px" src="{{ asset('assets/images/logo-form2.png') }}" alt="">
+                                            <img width="200" src="{{ asset('assets/images/logo.png') }}" alt="">
                                         </div>
                                         <div class="login-separater text-center mb-4"> <span>myApp</span>
                                             <hr>

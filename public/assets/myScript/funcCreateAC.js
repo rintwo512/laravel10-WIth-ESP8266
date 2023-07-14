@@ -24,20 +24,22 @@ addEventListener('change', function(){
 });
 
 
-$('#wing').on('click', function() {
+$('#wing').on('change', function() {
     const wing = $(this).val();
+    
     let cardLantai = '';
-    if(wing == 'WA' || wing == 'WB'){
+    if (wing == 'WA' || wing == 'WB') {
         cardLantai += wingAB();
         $('.optLantai').html(cardLantai);
-    }else if(wing == 'WC' || wing == 'WD'){
+    } else if (wing == 'WC' || wing == 'WD') {
         cardLantai += wingCD();
         $('.optLantai').html(cardLantai);
-    }else{
+    } else {
         cardLantai += wingLainnya();
         $('.optLantai').html(cardLantai);
     }
 });
+
 
 function wingAB() {
   return `<label for="lantai" class="form-label">Lantai <span               class="text-danger">*</span></label>
@@ -62,7 +64,7 @@ function wingLainnya() {
 }
 
 
-$('#jenis').on('click', function() {
+$('#jenis').on('change', function() {
     const jenis = $(this).val();
     let cardRefri = '';
     if(jenis == 'Inverter'){

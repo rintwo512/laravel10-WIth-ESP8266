@@ -31,7 +31,7 @@ class ACFactory extends Factory
         $btu = ['20.000','9.000','18.0000','5.000'];
         $product = ['Thailand','Vietnam','China'];
         $current = ['10 A','1.2 A','16.6 A'];
-        $petugasMaint = ['Rinto','Alim','Rahmat H','Kintil','Rahmat U','Arif Bro', 'Arif Obeng', 'Syahril'];
+        $petugasMaint = ['Rinto Harahap', 'Rahmat Abdullah', 'Alim Darmawan', 'Rahmat Hidayatullah', 'Rahmat Haryadi', 'Andriadi Hamid', 'Arif Nur', 'Arif Dg Awing', 'Syahril Dahlan', 'Hasrul'];
         $refri = ['R32','R410','R22'];
         $volt = ['220Volt','380Volt'];
         $pipa = ['1/4 + 3/8','1/4 + 1/2','1/4 + 5/8','3/8 + 5/8','3/8 + 3/4','1/2 + 3/4', '1/2 + 7/8', '1/2 + 1 1/2'];

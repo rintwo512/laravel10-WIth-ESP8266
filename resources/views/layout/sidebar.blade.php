@@ -38,8 +38,17 @@
     </div>
     <div class="textmenu">
         <div class="brand-logo">
+            @if (auth()->user()->role == 1)                
+            <a href="{{ url('/home') }}">
             <img src="{{ asset('assets/images/enerlog.png') }}" style="margin-left: 10px" width="160"
                 alt="" />
+            </a>
+            @else
+            <a href="{{ url('/ac') }}">
+                <img src="{{ asset('assets/images/enerlog.png') }}" style="margin-left: 10px" width="160"
+                    alt="" />
+                </a>
+            @endif
         </div>
         <div class="tab-content">
             <div class="tab-pane fade" id="pills-dashboards">

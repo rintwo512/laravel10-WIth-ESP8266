@@ -23,13 +23,22 @@
     </style>
     @php
         use Illuminate\Support\Carbon;
-
+        
     @endphp
 
 
 
 
     <div class="flash-success" data-success="{{ session('success') }}"></div>
+    <div class="flash-error" data-error="{{ session('error') }}"></div>
+    @foreach (['penyelenggara', 'tema_acara', 'lokasi_acara', 'waktu_mulai', 'waktu_berakhir', 'keterangan'] as $field)
+        @if ($errors->has($field))
+            <div class="field-error" data-field="{{ $errors->first($field) }}"></div>
+        @endif
+    @endforeach
+
+
+
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
         <div class="ps-3">
             <nav aria-label="breadcrumb">
@@ -102,7 +111,8 @@
 
                                         <button id="btnEditEvent" class="text-warning text-primary border-0 bg-transparent"
                                             data-bs-toggle="modal" data-bs-target="#modalEditEvent" title="Edit"
-                                            data-id="{{ $event->id }}" data-penyelenggara="{{ $event->penyelenggara }}" data-temaacara="{{ $event->tema_acara }}"
+                                            data-id="{{ $event->id }}" data-penyelenggara="{{ $event->penyelenggara }}"
+                                            data-temaacara="{{ $event->tema_acara }}"
                                             data-lokasiacara="{{ $event->lokasi_acara }}"
                                             data-waktumulai="{{ $event->waktu_mulai }}"
                                             data-waktuberakhir="{{ $event->waktu_berakhir }}"
@@ -186,28 +196,48 @@
 
                         <div class="col-md-12">
                             <label for="penyelenggara" class="form-label">Penyelenggara </label>
-                            <input class="form-control" id="penyelenggara" name="penyelenggara">
+                            <input
+                                class="form-control @error('penyelenggara') is-invalid
+                            @enderror"
+                                id="penyelenggara" name="penyelenggara" placeholder="Masukkan penyelenggara"
+                                value="{{ old('penyelenggara') }}">
                         </div>
                         <div class="col-md-12">
                             <label for="tema_acara" class="form-label">Tema Event </label>
-                            <input class="form-control" id="tema_acara" name="tema_acara">
+                            <input
+                                class="form-control @error('tema_acara') is-invalid
+                            @enderror"
+                                id="tema_acara" name="tema_acara" placeholder="Masukkan nama event"
+                                value="{{ old('tema_acara') }}">
                         </div>
                         <div class="col-md-12">
                             <label for="lokasi_acara" class="form-label">Lokasi Event </label>
-                            <input class="form-control" id="lokasi_acara" name="lokasi_acara">
+                            <input
+                                class="form-control @error('lokasi_acara') is-invalid
+                            @enderror"
+                                id="lokasi_acara" name="lokasi_acara" placeholder="Masukkan lokasi event"
+                                value="{{ old('lokasi_acara') }}">
                         </div>
                         <div class="col-md-6">
                             <label for="waktu_mulai" class="form-label">Waktu Mulai </label>
-                            <input class="form-control" id="date-time" name="waktu_mulai">
+                            <input
+                                class="form-control @error('waktu_mulai') is-invalid
+                            @enderror"
+                                id="date-time" name="waktu_mulai">
                         </div>
                         <div class="col-md-6">
                             <label for="waktu_berakhir" class="form-label">Waktu Selesai </label>
-                            <input class="form-control" id="date-time2" name="waktu_berakhir">
+                            <input
+                                class="form-control @error('waktu_berakhir') is-invalid
+                            @enderror"
+                                id="date-time2" name="waktu_berakhir">
                         </div>
                         <div class="col-12">
                             <label class="form-label">Keterangan <small>(optional)</small></label>
-                            <textarea class="form-control" name="keterangan" id="keterangan" rows="4" cols="4"
-                                placeholder="Masukan keterangan jika ada!"></textarea>
+                            <textarea class="form-control @error('keterangan') is-invalid
+                            @enderror" name="keterangan"
+                                id="keterangan" rows="4" cols="4" placeholder="Masukan keterangan jika ada!"
+                                value="{{ old('keterangan') }}"></textarea>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -320,26 +350,15 @@
 
 
 
-    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('assets/plugins/flickity/flickity.pkgd.min.js') }}"></script>
+    <script src="{{ asset('') }}/assets/js/flash-notif.js"></script>
+
 
 
 
     <script>
-        const flashSuccess = document.querySelector('.flash-success');
-        const flashNotif = flashSuccess.dataset.success;
-        if (flashNotif) {
-            Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: flashNotif,
-                showConfirmButton: false,
-                timer: 4000
-            });
-        }
-
-
         $(document).on('click', '#btnDeleteEvent', function(e) {
             e.preventDefault();
             Swal.fire({
@@ -420,45 +439,58 @@
 
     <script>
         $(document).on('click', '#btnRangeEvent', function() {
-            const data = $('.input-range-event').val();
-            const start = data.slice(0, 11).split('-').join('/');
-            const end = data.slice(13, 23).split('-').join('/');
+            const dataInput = $('.input-range-event').val();
+            const start = dataInput.slice(0, 11).split('-').join('/');
+            const end = dataInput.slice(13, 23).split('-').join('/');
 
             $.ajax({
-                url: "{{ url('/event/datarangeevent') }}" + "/" + data,
+                url: "{{ url('/event/datarangeevent') }}" + "/" + dataInput,
                 type: "GET",
                 success: result => {
+
                     let card = '';
                     const count = result.count;
-                    const data = result.data;
-                    data.forEach(e => {
+                    const dataRes = result.data;
+                    dataRes.forEach(e => {
                         $('#modalRangeEvent').modal('show');
                         $("#rangeTitleEvent").text(
                             `${start} - ${end} | Total : ${count} Event`);
                         card += updateCardEvent(e);
                     });
                     $("#rangeDataEvent").html(card);
+
+                },
+                error: (xhr, textStatus, errorThrown) => {
+                    if (xhr.status === 404) {
+                        // Data tidak ditemukan, tampilkan alert
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: `Data tanggal ${start} - ${end} tidak ditemukan!`
+                        })                        
+                    }
                 }
             });
         });
 
 
+
         function updateCardEvent(e) {
-    const dataID = e.id;
-    const start = new Date(e.waktu_mulai);
-    const end = new Date(e.waktu_berakhir);
+            const dataID = e.id;
+            const start = new Date(e.waktu_mulai);
+            const end = new Date(e.waktu_berakhir);
 
-    // Menghitung selisih waktu dalam milidetik
-    const timeDiff = end - start;
+            // Menghitung selisih waktu dalam milidetik
+            const timeDiff = end - start;
 
-    // Menghitung selisih hari
-    const dayDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            // Menghitung selisih hari
+            const dayDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
 
-    // Mengonversi selisih waktu ke dalam format yang diinginkan
-    const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60) % 24);
-    const minutesDiff = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+            // Mengonversi selisih waktu ke dalam format yang diinginkan
+            const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60) % 24);
+            const minutesDiff = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
 
-    return `<tr>
+            return `<tr>
         <td>${e.penyelenggara}</td>
         <td>${e.tema_acara}</td>
         <td>${e.lokasi_acara}</td>
@@ -467,7 +499,6 @@
         <td>${dayDiff} hari ${hoursDiff} jam ${minutesDiff} menit</td>
         <td>${e.keterangan == null ? '' : e.keterangan}</td>
     </tr>`;
-}
-
+        }
     </script>
 @endsection

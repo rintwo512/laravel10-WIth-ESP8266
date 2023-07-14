@@ -19,21 +19,7 @@
             /* prevent copy paste, to allow, change 'none' to 'text' */
             /* -webkit-tap-highlight-color: rgba(0,0,0,0); */
         }
-
-        /* body {
-                      background: #fafafa;
-                      color: #000;
-                      margin: 5px;
-                      padding: 0px;
-                      margin-bottom: 45px;
-                      text-align: center;
-                      font-family: 'Roboto',Helvetica, Arial;
-                    } */
-
-        /* a {
-                      color: #000;
-                    } */
-
+       
         .box {
             display: inline-block;
 
@@ -130,7 +116,10 @@
             /* warna latar belakang ketika checkbox dipilih */
             border-radius: 100%;
         }
-       
+
+        .apexcharts-menu-item.exportSVG, .apexcharts-menu-item.exportCSV, .apexcharts-text.apexcharts-yaxis-title-text {
+            display: none;
+        }
     </style>
 
 
@@ -147,26 +136,28 @@
     </style>
 
 
-        {{-- Chart --}}
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        @can('admin')
-        <div class="col-md-2 mb-3">
-            <select class="form-select" name="tahun" id="tahun">
-                <option value="">--Select--</option>
-                @foreach ($list_tahun as $tahun)
-                <option value="{{ $tahun->tahun }}">{{ $tahun->tahun }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="card">
-            <div class="card-body">
+    {{-- Chart --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    @can('admin')
+    <div class="col-md-2 mb-3">
+        <select class="single-select" name="tahun" id="tahun">
+            <option value="" disabled>--Select--</option>
+            @foreach ($list_tahun as $tahun)
+            <option value="{{ $tahun->tahun }}">{{ $tahun->tahun }}</option>
+            @endforeach
+        </select>
+    </div>
+    <div class="card">
+        <div class="card-body">
+                <button id="exportExcelBtn" class="btn btn-success mb-2"><i class="bi bi-download"></i> Export Excel</button>
                 <div class="chart-container1">
                     <div id="chart66"></div>
                 </div>
             </div>
         </div>
-        @endcan
-        {{-- End Chart --}}
+    @endcan
+    {{-- End Chart --}}
 
 
     {{-- TODO LIST --}}
@@ -280,24 +271,24 @@
 
         {{-- USER --}}
         @can('admin')
-        <div class="col-12">
-            <div class="card radius-10">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="">
-                            <p class="mb-1">Users Registration</p>
-                            <h4 class="mb-0">{{ $countUsers }}</h4>
+            <div class="col-12">
+                <div class="card radius-10">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="">
+                                <p class="mb-1">Users Registration</p>
+                                <h4 class="mb-0">{{ $countUsers }}</h4>
+                            </div>
+                            <div class="ms-auto fs-2 text-info">
+                                <i class="bi bi-people"></i>
+                            </div>
                         </div>
-                        <div class="ms-auto fs-2 text-info">
-                            <i class="bi bi-people"></i>
-                        </div>
+                        <div class="border-top my-2"></div>
+                        <small class="mb-0 text-success"><span class="text-success"> <i class="bi bi-eye"></i></span> List
+                            Users Registration</small>
                     </div>
-                    <div class="border-top my-2"></div>
-                    <small class="mb-0 text-success"><span class="text-success"> <i class="bi bi-eye"></i></span> List
-                        Users Registration</small>
                 </div>
             </div>
-        </div>
         @endcan
         {{-- END USER --}}
     </div>
@@ -314,13 +305,13 @@
     <p><button onclick="recover();" class="btn" id="recover-button" style="padding: 1.25rem; border: 0; border-radius: 3px; background-color: #4F46E5; color: #fff; cursor: pointer;">Recover</button>
   </div> --}}
             <!-- <div class="ratio ratio-16x9 mb-4">
-                  <iframe src="https://www.youtube.com/embed/r28RWd9lXbw" title="YouTube video" allowfullscreen></iframe>
-                </div> -->
+                              <iframe src="https://www.youtube.com/embed/r28RWd9lXbw" title="YouTube video" allowfullscreen></iframe>
+                            </div> -->
         </div>
 
 
         <!-- <div class="card">
-                    <div class="card-body"> -->
+                                <div class="card-body"> -->
         {{-- <div class="col">
     <span class="containerD">
       <img id="robot" src="{{ asset('assets/images/robot.jpg') }}" />
@@ -345,6 +336,10 @@
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
 
     <script src="{{ asset('assets/plugins/apexcharts-bundle/js/apexcharts.min.js') }}"></script>
+    
+    <script src="{{asset('')}}/assets/js/excel/xlsx.full.min.js"></script>
+
+    <script src="{{ asset('assets/js/excel/FileSaver.js') }}"></script>
 
 
 
@@ -373,131 +368,177 @@
         }
 
         function drawChart(result, title, year) {
-  if (chart) {
-    chart.destroy();
-    document.querySelector("#chart66").innerHTML = ""; // Menghapus elemen HTML chart sebelumnya
-  }
+            if (chart) {
+                chart.destroy();
+                document.querySelector("#chart66").innerHTML = ""; // Menghapus elemen HTML chart sebelumnya
+            }
 
-  var total = result.map(item => parseInt(item.total));
-  var kalkulasi = total.reduce((acc, curr) => acc + curr);
-  var bulan = result.map(item => {
-    var monthIndex = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December'
-    ];
-    return monthIndex.indexOf(item.bulan) + 1;
-  });
-  console.log(bulan);
+            var total = result.map(item => parseInt(item.total));
+            var kalkulasi = total.reduce((acc, curr) => acc + curr);
+            var bulan = result.map(item => {
+                var monthIndex = [
+                    'January',
+                    'February',
+                    'March',
+                    'April',
+                    'May',
+                    'June',
+                    'July',
+                    'August',
+                    'September',
+                    'October',
+                    'November',
+                    'December'
+                ];
+                return monthIndex.indexOf(item.bulan) + 1;
+            });
 
-  var options = {
-    series: [
-      {
-        name: 'Column',
-        type: 'column',
-        data: total
-      },
-      {
-        name: 'Line',
-        type: 'line',
-        data: total
-      }
-    ],
-    chart: {
-      foreColor: '#9ba7b2',
-      height: 350,
-      type: 'line',
-      zoom: {
-        enabled: false
-      },
-      toolbar: {
-        show: true
-      }
-    },
-    stroke: {
-      width: [0, 4]
-    },
-    plotOptions: {
-      bar: {
-        columnWidth: '35%',
-        endingShape: 'rounded'
-      }
-    },
-    colors: ['#0d6efd', '#212529'],
-    title: {
-      text: `${title} - Total = ${kalkulasi} Unit`
-    },
-    dataLabels: {
-      enabled: true,
-      enabledOnSeries: [1]
-    },
-    labels: bulan,
-    xaxis: {
-      type: 'category',
-      labels: {
-        formatter: function(value) {
-          var months = [
-            'Januari',
-            'Februari',
-            'Maret',
-            'April',
-            'Mei',
-            'Juni',
-            'Juli',
-            'Agustus',
-            'September',
-            'Oktober',
-            'November',
-            'Desember'
-          ];
-          return months[value - 1];
-        }
-      }
-    },
-    yaxis: [
-      {
-        title: {
-          text: 'Rata-rata'
-        },
-        labels: {
-          formatter: function(value) {
-            return Math.round(value); // Mengubah angka menjadi bilangan bulat
-          }
-        }
-      },
-      {
-        opposite: true,
-        title: {
-          text: 'Rata-rata'
-        },
-        labels: {
-          formatter: function(value) {
-            return Math.round(value); // Mengubah angka menjadi bilangan bulat
-          }
-        }
-      }
-    ],
-    tooltip: {
-      y: {
-        formatter: function(value) {
-          return Math.round(value); // Mengubah angka tooltip menjadi bilangan bulat
-        }
-      }
-    }
-  };
 
-  chart = new ApexCharts(document.querySelector('#chart66'), options);
-  chart.render();
-}
+            var options = {
+                series: [{
+                        name: 'Column',
+                        type: 'column',
+                        data: total
+                    },
+                    {
+                        name: 'Line',
+                        type: 'line',
+                        data: total
+                    }
+                ],
+                chart: {
+                    foreColor: '#9ba7b2',
+                    height: 350,
+                    type: 'line',
+                    zoom: {
+                        enabled: false
+                    },
+                    toolbar: {
+                        show: true
+                    }
+                },
+                stroke: {
+                    width: [0, 4]
+                },
+                plotOptions: {
+                    bar: {
+                        columnWidth: '35%',
+                        endingShape: 'rounded'
+                    }
+                },
+                colors: ['#0d6efd', '#212529'],
+                title: {
+                    text: `${title} - Total = ${kalkulasi} Unit`
+                },
+                dataLabels: {
+                    enabled: true,
+                    enabledOnSeries: [1]
+                },
+                labels: bulan,
+                xaxis: {
+                    type: 'category',
+                    labels: {
+                        formatter: function(value) {
+                            var months = [
+                                'Januari',
+                                'Februari',
+                                'Maret',
+                                'April',
+                                'Mei',
+                                'Juni',
+                                'Juli',
+                                'Agustus',
+                                'September',
+                                'Oktober',
+                                'November',
+                                'Desember'
+                            ];
+                            return months[value - 1];
+                        }
+                    }
+                },
+                yaxis: [{
+                        title: {
+                            text: 'Rata-rata'
+                        },
+                        labels: {
+                            formatter: function(value) {
+                                return Math.round(value); // Mengubah angka menjadi bilangan bulat
+                            }
+                        }
+                    },
+                    {
+                        opposite: true,
+                        title: {
+                            text: 'Rata-rata'
+                        },
+                        labels: {
+                            formatter: function(value) {
+                                return Math.round(value); // Mengubah angka menjadi bilangan bulat
+                            }
+                        }
+                    }
+                ],
+                tooltip: {
+                    y: {
+                        formatter: function(value) {
+                            return Math.round(value); // Mengubah angka tooltip menjadi bilangan bulat
+                        }
+                    }
+                }
+            };
+
+            chart = new ApexCharts(document.querySelector('#chart66'), options);
+            chart.render();
+        }
+
+        function exportChartToExcel() {
+            // Mendapatkan data dari chart
+            var chartData = chart.w.globals.series.slice(); // Menggunakan data yang sama dengan chart
+
+            // Membuat array untuk menyimpan data yang akan diekspor ke Excel
+            var exportData = [
+                ['Tahun', 'Bulan', 'Total']
+            ];
+
+            // Mengisi array exportData dengan data chart
+            for (var i = 0; i < chartData[0].length; i++) {
+                var tahun = $('#tahun').val(); // Mengambil tahun dari input select dengan id "tahun"
+                var bulanIndex = chart.w.globals.labels[i] - 1;
+                var bulan = new Date(0, bulanIndex).toLocaleString('default', {
+                    month: 'long'
+                });
+                var total = chartData[0][i];
+
+                exportData.push([tahun, bulan, total]);
+            }
+
+            // Membuat worksheet Excel menggunakan library "xlsx"
+            var worksheet = XLSX.utils.aoa_to_sheet(exportData);
+
+            // Membuat workbook Excel
+            var workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
+
+            // Mengkonversi workbook Excel menjadi file binary
+            var excelFile = XLSX.write(workbook, {
+                bookType: 'xlsx',
+                type: 'binary'
+            });
+
+            // Mendownload file Excel
+            saveAs(new Blob([s2ab(excelFile)], {
+                type: 'application/octet-stream'
+            }), 'chart_data.xlsx');
+        }
+
+        // Fungsi untuk mengkonversi string menjadi array buffer
+        function s2ab(s) {
+            var buf = new ArrayBuffer(s.length);
+            var view = new Uint8Array(buf);
+            for (var i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xff;
+            return buf;
+        }
 
 
 
@@ -513,9 +554,17 @@
             const d = new Date();
             let tahun = d.getFullYear();
             chartAc(tahun, `Statistic Bulanan Maintenance AC : Tahun ${tahun}`);
+
+            // Event listener untuk tombol "Export Excel"
+            $('#exportExcelBtn').click(function() {
+                exportChartToExcel();
+            });
         });
     </script>
     {{-- END CHART --}}
+
+
+
 
 
     {{-- TYPING EFFECT --}}

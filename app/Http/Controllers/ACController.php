@@ -9,6 +9,7 @@ use Illuminate\Support\Carbon;
 use App\Exports\DataACExportExcel;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Validator;
 
 class ACController extends Controller
 {
@@ -40,37 +41,40 @@ class ACController extends Controller
      */
     public function store(Request $request)
     {
-        $validateDataAc = $request->validate([
+        $validator = Validator::make($request->all(), [
             'wing' => 'required',
-
             'lantai' => 'required',
-            'ruangan' => 'required',
+            'ruangan' => 'required|min:2',
             'merk' => 'required',
             'type' => 'required',
             'jenis' => 'required',
-            'ruangan' => 'required',
             'kapasitas' => 'required',
             'refrigerant' => 'required',
-            'voltage' => 'required',
+            'voltage' => 'required|min:3',
             'status' => 'required'
         ]);
 
-        $rulesSeri = [
-            'seri_indoor' => 'unique:ac,NULL',
-            'seri_outdoor' => 'unique:ac,NULL'
-        ];
+        $validator->sometimes('seri_indoor', 'unique:ac,NULL', function ($input) {
+            return $input->seri_indoor !== null;
+        });
 
-        if ($request->seri_indoor != NULL) {
+        $validator->sometimes('seri_outdoor', 'unique:ac,NULL', function ($input) {
+            return $input->seri_outdoor !== null;
+        });
 
-            $validateDataAc = $request->validate($rulesSeri);
-        }
-
-        $rulesLabel = [
-            'label' => 'unique:ac',
-        ];
         if ($request->label != NULL) {
-            $validateDataAc = $request->validate($rulesLabel);
+            $validator->sometimes('label', 'unique:ac,NULL', function ($input) {
+                return !empty($input->label);
+            });
         }
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', 'Gagal menambah data!');
+        }
+        $petugas_maint = implode(',', $request->petugas_maint);
 
         $validateDataAc =
             [
@@ -96,7 +100,7 @@ class ACController extends Controller
                 'tgl_pemasangan' => $request->tgl_pemasangan,
                 'petugas_pemasangan' => $request->petugas_pemasangan,
                 'tgl_maintenance' => $request->tgl_maintenance,
-                'petugas_maint' => $request->petugas_maint,
+                'petugas_maint' => $petugas_maint,
                 'seri_indoor' => $request->seri_indoor,
                 'seri_outdoor' => $request->seri_outdoor,
                 'user_id' => auth()->user()->id
@@ -109,35 +113,19 @@ class ACController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(AC $aC, $id)
+    public function show($id)
     {
+        $ac = AC::find($id);
+
+        if (!$ac) {
+            return back()->with('error', 'Data AC tidak ditemukan.');
+        }
 
         return view('dataAC.update', [
             'title' => 'Update Data AC',
-            'ac' => AC::find($id),
-            'dataall' => AC::all()
+            'ac' => $ac,
+            'dataall' => ['Rinto Harahap', 'Rahmat Abdullah', 'Alim Darmawan', 'Rahmat Hidayatullah', 'Rahmat Haryadi', 'Andriadi Hamid', 'Arif Nur', 'Arif Dg Awing', 'Syahril Dahlan', 'Hasrul']
         ]);
-
-
-        // $userRole = auth()->user()->role;
-
-        // // Memeriksa jika role bukan admin
-        // if ($userRole !== 1) {
-        //     $disabledFields = ['wing', 'lantai', 'ruangan', 'merk', 'type', 'jenis', 'kapasitas', 'refrigerant', 'voltage', 'status', 'catatan', 'kerusakan', 'keterangan', 'tgl_pemasangan', 'petugas_pemasangan', 'seri_indoor', 'seri_outdoor'];
-
-        //     return view('dataAC.update', [
-        //         'title' => 'Update Data AC',
-        //         'ac' => AC::find($id),
-        //         'dataall' => AC::all(),
-        //         'disabledFields' => $disabledFields
-        //     ]);
-        // } else {
-        //     return view('dataAC.update', [
-        //         'title' => 'Update Data AC',
-        //         'ac' => AC::find($id),
-        //         'dataall' => AC::all()
-        //     ]);
-        // }
     }
 
     /**
@@ -155,37 +143,49 @@ class ACController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, AC $aC, $id)
+    public function update(Request $request, $id)
     {
         $old = AC::find($id);
 
 
-        $rules = [
+        $validator = Validator::make($request->all(), [
             'wing' => 'required',
             'lantai' => 'required',
-            'ruangan' => 'required',
+            'ruangan' => 'required|min:3',
             'merk' => 'required',
             'type' => 'required',
             'jenis' => 'required',
             'kapasitas' => 'required',
             'refrigerant' => 'required',
-            'voltage' => 'required',
+            'voltage' => 'required|min:3',
             'status' => 'required'
-        ];
+        ]);
 
-        $validateNewData = $request->validate($rules);
-
-        $ruleSeri = [
-            'seri_indoor' => 'required|unique:ac',
-            'seri_outdoor' => 'required|unique:ac'
-        ];
-
-        if ($request->seri_indoor != $old->seri_indoor) {
-            $validateNewData = $request->validate($ruleSeri);
+        if ($old->seri_indoor != $request->seri_indoor) {
+            $validator->sometimes('seri_indoor', 'unique:ac,NULL', function ($input) {
+                return !empty($input->seri_indoor);
+            });
         }
-        if ($request->seri_outdoor != $old->seri_outdoor) {
-            $validateNewData = $request->validate($ruleSeri);
+        if ($old->seri_outdoor != $request->seri_outdoor) {
+            $validator->sometimes('seri_outdoor', 'unique:ac,NULL', function ($input) {
+                return !empty($input->seri_outdoor);
+            });
         }
+        if ($old->label != $request->label) {
+            $validator->sometimes('label', 'unique:ac,NULL', function ($input) {
+                return !empty($input->label);
+            });
+        }
+
+
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', 'Gagal mengubah data!');
+        }
+
 
         if ($request->tgl_maintenance != $old->tgl_maintenance) {
             $iniBulan = Carbon::now()->format("F");
@@ -207,9 +207,11 @@ class ACController extends Controller
             }
         }
 
+        $petugas_maint = '';
 
-
-
+        if ($request->petugas_maint !== null) {
+            $petugas_maint = implode(',', $request->petugas_maint);
+        }
 
         $validateNewData =
             [
@@ -235,13 +237,14 @@ class ACController extends Controller
                 'tgl_pemasangan' => $request->tgl_pemasangan,
                 'petugas_pemasangan' => $request->petugas_pemasangan,
                 'tgl_maintenance' => $request->tgl_maintenance,
-                'petugas_maint' => $request->petugas_maint,
+                'petugas_maint' => $petugas_maint,
                 'seri_indoor' => $request->seri_indoor,
                 'seri_outdoor' => $request->seri_outdoor,
                 'user_updated' => auth()->user()->name,
                 'user_updated_time' => date('Y-m-d H:i:s')
             ];
-        $newData = AC::where('id', $id)
+
+        AC::where('id', $id)
             ->update($validateNewData);
 
         return redirect('/ac')->with('success', 'Data berhasil di ubah!');
@@ -252,9 +255,13 @@ class ACController extends Controller
      */
     public function destroy($id)
     {
-        AC::where('id', $id)->update(['is_delete' => auth()->user()->name]);
-        AC::destroy($id);
-        return redirect('/ac');
+        try {
+            AC::where('id', $id)->update(['is_delete' => auth()->user()->name]);
+            AC::destroy($id);
+            return redirect('/ac')->with('success', 'Data berhasil dihapus!');
+        } catch (\Exception $e) {
+            return redirect('/ac')->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+        }
     }
 
     public function deleteCheckedAc(Request $request)
@@ -288,7 +295,7 @@ class ACController extends Controller
             $restoreDataId->restore();
         }
 
-        return response()->json(['success' => 'Data kembali']);
+        return response()->json(['success' => 'Data berhasil direstore']);
     }
 
     public function queryRangeAc($nilai)
@@ -297,7 +304,21 @@ class ACController extends Controller
         $end = substr($nilai, 13, 24);
 
         $range = AC::whereBetween('user_updated_time', [$start, $end])->get();
-        return response()->json($range);
+        $countRange = $range->count();
+
+        if ($countRange === 0) {
+            return response()->json([
+                'count' => 0,
+                'message' => 'Data tidak ditemukan!'
+            ], 404); // Mengirim status HTTP 404 jika data tidak ditemukan
+        }
+
+        $responseData = [
+            'count' => $countRange,
+            'data' => $range
+        ];
+
+        return response()->json($responseData);
     }
 
     public function exportDataAc()
@@ -325,8 +346,15 @@ class ACController extends Controller
         $end = substr($data, 13, 24);
 
         $dataACBaru = AC::whereBetween('tgl_pemasangan', [$start, $end])->get();
-        $countDataACBaru = AC::whereBetween('tgl_pemasangan', [$start, $end])->count();
-        // return response()->json($dataACBaru);
+        $countDataACBaru = $dataACBaru->count();
+
+        if ($countDataACBaru === 0) {
+            return response()->json([
+                'count' => 0,
+                'message' => 'Data tidak ditemukan!'
+            ], 404); // Mengirim status HTTP 404 jika data tidak ditemukan
+        }
+
         $responseData = [
             'count' => $countDataACBaru,
             'data' => $dataACBaru

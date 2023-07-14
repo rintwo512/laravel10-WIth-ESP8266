@@ -54,10 +54,10 @@ class UserSettingController extends Controller
         // dd($oldPass);
 
         if (!Hash::check($oldPass, $userSet->password)) {
-            return back()->with('alert', 'password anda salah!');
+            return back()->with('error', 'password anda salah!');
         } else {
             if (Hash::check($newPass, $userSet->password)) {
-                return back()->with('alert', 'password baru tidak boleh sama dengan password lama!');
+                return back()->with('error', 'password baru tidak boleh sama dengan password lama!');
             } else {
 
                 $request->validate($rules);
@@ -99,6 +99,11 @@ class UserSettingController extends Controller
             }
             $validateData['image'] = $request->file('image')->store('user-images');
         }
+
+        $validateData['email'] = $request->email;
+        $validateData['no_wa'] = $request->no_wa;
+        $validateData['tempat_lahir'] = $request->tempat_lahir;
+        $validateData['tanggal_lahir'] = $request->tanggal_lahir;
 
         User::where('id', $id)
             ->update($validateData);

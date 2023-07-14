@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\ChartAC;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+
 
 class chartACController extends Controller
 {
@@ -13,8 +15,14 @@ class chartACController extends Controller
      */
     public function index(Request $request)
     {
+        
+
         $input = $request->updateTahun;
+        
+        
+
         $dataTotalUnit = ChartAC::where('tahun', $input)->sum('total');
+
 
         $dataTahun = ChartAC::where('tahun', $input)->get();
 
@@ -26,6 +34,49 @@ class chartACController extends Controller
             ->groupBy('tahun')
             ->orderBy('tahun', 'DESC')
             ->get();
+
+            
+    
+        return view('chartAC.index', [
+            'title' => 'Chart AC',
+            'listUpdateTahun' => $listUpdateTahun,
+            'dataChart' => $dataTahun,
+            'month' => $month,
+            'dataTotalUnit' => intval($dataTotalUnit)
+        ]);
+    }
+
+    public function searchChart(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'updateTahun' => 'required',
+        ]);
+    
+        if ($validator->fails()) {
+            return back()->with('error', 'Tidak ada data yang dipilih!');
+        }
+
+        $input = $request->updateTahun;
+        
+        
+
+        $dataTotalUnit = ChartAC::where('tahun', $input)->sum('total');
+
+
+        $dataTahun = ChartAC::where('tahun', $input)->get();
+
+        $month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+
+        $listUpdateTahun = DB::table('chartac')
+            ->select('tahun')
+            ->groupBy('tahun')
+            ->orderBy('tahun', 'DESC')
+            ->get();
+
+            
+    
         return view('chartAC.index', [
             'title' => 'Chart AC',
             'listUpdateTahun' => $listUpdateTahun,
@@ -85,4 +136,15 @@ class chartACController extends Controller
         return redirect('/chart/search')->with('success', 'Data has been updated!');
     }
 
+    public function deleteAllChart(Request $request)
+    {
+        $tahun = $request->deleteAllChart;
+        
+        if($tahun == null){
+            return back()->with('error', 'Tidak ada data yang dipilih!');
+        }else{
+            ChartAC::where('tahun', $tahun)->delete();
+            return back()->with('success', 'Data tahun ' . $tahun . ' berhasil dihapus!');
+        }
+    }
 }

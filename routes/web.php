@@ -63,13 +63,17 @@ Route::get('/ac/listmainten', [ACController::class, 'listMainten'])->middleware(
 // CHART
 Route::post('/chart', [HomeController::class, 'getChart'])->middleware('auth');
 Route::get('/chart/search', [chartACController::class, "index"]);
+Route::post('/chart/search', [chartACController::class, "searchChart"]);
+Route::post('/chart/deleteallchart', [chartACController::class, "deleteAllChart"]);
 Route::post('/chart/create', [chartACController::class, 'tambahDataChart']);
 Route::delete('/chart/delete/{id}', [chartACController::class, 'deleteDataChartAc'])->middleware('auth');
 Route::post('chart/update', [chartACController::class, 'updateDataChart']);
 
 
+
 // MEMBERS
 Route::resource('/members', MembersController::class);
+Route::get('members/detail-user/{id}', [MembersController::class, 'detailUser']);
 
 
 // USER SETTING
@@ -134,4 +138,4 @@ Route::delete('/todolist/delete/{id}', [TodoListController::class, 'destroy']);
 // ACARA
 Route::resource('/event', AcaraController::class);
 Route::post('/event/update', [AcaraController::class, 'update']);
-Route::get('/event/datarangeevent/{data}', [AcaraController::class, 'rangeEvent']);
+Route::get('/event/datarangeevent/{dataInput}', [AcaraController::class, 'rangeEvent']);

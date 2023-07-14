@@ -20,6 +20,7 @@
 
 
     <div class="flash-success" data-success="{{ session('success') }}"></div>
+    <div class="flash-error" data-error="{{ session('error') }}"></div>
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
         <div class="ps-3">
             <nav aria-label="breadcrumb">
@@ -348,7 +349,7 @@
                         <table class="table table-bordered mb-0">
                             <thead>
                                 <tr>
-                                    <th scope="col">Label</th>
+                                    <th scope="col">ID</th>
                                     <th scope="col">Lantai</th>
                                     <th scope="col">Wing</th>
                                     <th scope="col">Ruangan</th>
@@ -356,7 +357,7 @@
                                     <th scope="col">Type</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Diperbarui pada</th>
-                                    <th scope="col">By</th>
+                                    <th scope="col">By_user</th>
                                 </tr>
                             </thead>
                             <tbody id="rangeDataAc">
@@ -386,6 +387,7 @@
                 <div class="modal-body">
                     <div class="card-body">
                         <table class="table table-bordered mb-0">
+                            <button class="btn btn-success btn-sm mb-2 btn-export-excel">Export Excel</button>
                             <thead>
                                 <tr>
                                     <th scope="col">Lantai</th>
@@ -417,26 +419,15 @@
 
 
 
-    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('assets/plugins/flickity/flickity.pkgd.min.js') }}"></script>
+    <script src="{{ asset('') }}/assets/js/flash-notif.js"></script>
+    <script src="{{asset('')}}/assets/js/excel/xlsx.full.min.js"></script>
 
 
 
     <script>
-        const flashSuccess = document.querySelector('.flash-success');
-        const flashNotif = flashSuccess.dataset.success;
-        if (flashNotif) {
-            Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: flashNotif,
-                showConfirmButton: false,
-                timer: 4000
-            });
-        }
-
-
         $(document).on('click', '#btnDeleteAc', function(e) {
             const href = $(this).attr('href');
             e.preventDefault();
@@ -657,12 +648,26 @@
                 type: "GET",
                 success: result => {
                     let card = '';
-                    result.forEach(e => {
+                    const count = result.count;
+                    const data = result.data;
+                    data.forEach(e => {
                         $('#modalRangeDataAc').modal('show');
-                        $("#rangeTitleAc").text(`Data : ${start} sampai ${end}`);
+                        $("#rangeTitleAc").text(
+                            `Data : ${start} - ${end} | Total : ${count} Data yang telah diupdate!`
+                        );
                         card += updateCardAc(e);
                     });
                     $("#rangeDataAc").html(card);
+                },
+                error: (xhr, textStatus, errorThrown) => {
+                    if (xhr.status === 404) {
+                        // Data tidak ditemukan, tampilkan alert
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: `Data tanggal ${start} - ${end} tidak ditemukan!`
+                        })
+                    }
                 }
             });
         });
@@ -703,6 +708,7 @@
                 url: "{{ url('/ac/dataacbaru') }}" + "/" + data,
                 type: "GET",
                 success: result => {
+                    
                     let card = '';
                     const count = result.count;
                     const data = result.data;
@@ -713,6 +719,22 @@
                         card += updateCardAcBaru(e);
                     });
                     $("#rangeDataAcBaru").html(card);
+
+                    // Tambahkan event listener untuk tombol "Export Excel"
+                    $('.btn-export-excel').click(function() {
+                        exportToExcel(data);
+                    });
+
+                },
+                error: (xhr, textStatus, errorThrown) => {
+                    if (xhr.status === 404) {
+                        // Data tidak ditemukan, tampilkan alert
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: `Data tanggal ${start} - ${end} tidak ditemukan!`
+                        })
+                    }
                 }
             });
         });
@@ -721,19 +743,61 @@
         function updateCardAcBaru(e) {
             const dataID = e.id;
             return `<tr>
-    <td>${e.lantai}</td>
-    <td>${e.wing}</td>
-    <td>${e.ruangan}</td>
-    <td>${e.merk}</td>
-    <td>${e.type}</td>
-    <td>${e.kapasitas}</td>
-    ${e.status == "Rusak" ? `<td style="background:#E72E2E;color:white">${e.status}</td>` : `<td style="background:#2FB5F2;color:white">${e.status}</td>`}
-    <td>${e.tgl_pemasangan}</td>
-    <td>${e.petugas_pemasangan}</td>
-    <td><a href="{{ url('/ac/datadetailacbaru/') }}/${e.id}"><i class='bi bi-eye-fill'></i></a></td>
-</tr>`;
+                        <td>${e.lantai}</td>
+                        <td>${e.wing}</td>
+                        <td>${e.ruangan}</td>
+                        <td>${e.merk}</td>
+                        <td>${e.type}</td>
+                        <td>${e.kapasitas}</td>
+                        ${e.status == "Rusak" ? `<td style="background:#E72E2E;color:white">${e.status}</td>` : `<td style="background:#2FB5F2;color:white">${e.status}</td>`}
+                        <td>${e.tgl_pemasangan}</td>
+                        <td>${e.petugas_pemasangan == null ? '' : e.petugas_pemasangan}</td>
+                        <td><a href="{{ url('/ac/datadetailacbaru/') }}/${e.id}"><i class='bi bi-eye-fill'></i></a></td>
+                    </tr>`;
+
+        }
 
 
+        function exportToExcel(data) {
+            // Mengambil hanya field yang diinginkan
+            var exportedData = data.map(item => ({
+                ID: item.label,
+                Merk: item.merk,
+                Type: item.type,
+                Jenis: item.jenis,
+                Kapasitas: item.kapasitas,
+                Refigerant: item.refrigerant,
+                Amper: item.current,
+                Buatan: item.product,
+                Tegangan_Kerja: item.voltage,
+                Btu: item.btu,
+                Ukuran_Pipa: item.pipa,
+                No_Seri_Indoor : item.seri_indoor,
+                No_Seri_Outdoor : item.seri_outdoor,
+                Asset: item.assets,
+                Lokasi: item.wing,
+                Lantai: item.lantai,
+                Ruangan: item.ruangan,                
+                Status_AC: item.status,
+                Kerusakan_AC: item.kerusakan,
+                Keterangan: item.keterangan,
+                Tanggal_Pemasangan: item.tgl_pemasangan,
+                Petugas_Pemasangan: item.petugas_pemasangan
+                // Tambahkan field lain yang ingin diexport
+            }));
+
+            // Buat workbook baru
+            var wb = XLSX.utils.book_new();
+
+            // Buat worksheet baru dari data yang telah di-filter
+            var ws = XLSX.utils.json_to_sheet(exportedData);
+
+            // Tambahkan worksheet ke workbook
+            XLSX.utils.book_append_sheet(wb, ws, "Data AC Baru");
+
+            // Simpan file Excel
+            var filename = "data_ac_baru.xlsx";
+            XLSX.writeFile(wb, filename);
         }
     </script>
 @endsection

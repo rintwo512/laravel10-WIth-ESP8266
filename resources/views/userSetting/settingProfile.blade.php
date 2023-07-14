@@ -41,15 +41,31 @@
                             <label class="form-label">NIK</label>
                             <input type="text" name="nik" class="form-control" value="{{ auth()->user()->nik }}" readonly>
                         </div>
+                        <div class="col-6">
+                            <label class="form-label">Email</label>
+                            <input type="text" name="email" class="form-control" value="{{ auth()->user()->email }}">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Whatsapp</label>
+                            <input type="text" name="no_wa" class="form-control" value="{{ auth()->user()->no_wa }}">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Tempat Lahir</label>
+                            <input type="text" name="tempat_lahir" class="form-control" value="{{ auth()->user()->tempat_lahir }}">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Tanggal Lahir</label>
+                            <input type="text" name="tanggal_lahir" id="date" class="form-control" value="{{ date('Y-m-d', strtotime(auth()->user()->tanggal_lahir)) }}">
+                        </div>
                         <div class="col-12">
                             <label class="form-label">Picture</label>
                             <input type="hidden" name="oldImg" value="{{ auth()->user()->image }}">
                                 @if (auth()->user()->image)
 
                                 @if (auth()->user()->image != 'default.png')
-                                <img src="{{ asset('storage/' . auth()->user()->image) }}" class="img-preview img-fluid mb-3 col-sm-5 d-block">
+                                <img src="{{ asset('storage/' . auth()->user()->image) }}" class="img-preview img-fluid mb-3 col-sm-5 d-block" style="width: 120px;height:120px">
                                 @else
-                                <img src="{{ asset('/assets/images/avatars/' . auth()->user()->image) }}" class="img-preview img-fluid mb-3 col-sm-5 d-block">
+                                <img src="{{ asset('/assets/images/avatars/' . auth()->user()->image) }}" class="img-preview img-fluid mb-3 col-sm-5 d-block" style="width: 120px;height:120px">
                                 @endif
 
                                 @else
@@ -84,7 +100,7 @@
                     <p class="mb-0 text-secondary">{{ auth()->user()->nik }}</p>
                     <div class="mt-4"></div>
                     <h6 class="mb-1">Member Since - {{ auth()->user()->created_at->year }}</h6>
-                    <p class="mb-0 text-secondary">Treg 7</p>
+                    <p class="mb-0 text-secondary">Reg 7</p>
                     </div>
                 </div>
             </div>
@@ -93,20 +109,9 @@
 
         <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="{{asset('')}}/assets/js/flash-notif.js"></script>
 
-        <script>
-
-          const flashSuccess = document.querySelector('.flash-success');
-          const flashNotif = flashSuccess.dataset.success;
-          if(flashNotif){
-            Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: flashNotif,
-            showConfirmButton: false,
-            timer: 4000
-            });
-          }
+        <script>          
 
             document.addEventListener('trix-file-accept', function(e) {
                     e.preventDefault();

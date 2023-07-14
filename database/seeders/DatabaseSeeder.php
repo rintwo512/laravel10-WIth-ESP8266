@@ -39,11 +39,36 @@ class DatabaseSeeder extends Seeder
             'December'
         ];
 
-        $tahun = "2022";
+        $tahun = "2021";
 
         foreach ($bulan as $indeks => $namaBulan) {
             ChartAC::create([
                 'tahun' => $tahun,
+                'bulan' => $namaBulan,
+                'total' => mt_rand(15, 35)
+            ]);
+        }
+
+        $bulan1 = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December'
+        ];
+
+        $tahun1 = "2022";
+
+        foreach ($bulan1 as $indeks => $namaBulan) {
+            ChartAC::create([
+                'tahun' => $tahun1,
                 'bulan' => $namaBulan,
                 'total' => mt_rand(10, 30)
             ]);
@@ -81,6 +106,10 @@ class DatabaseSeeder extends Seeder
 
         User::create([
             'name' => 'Meong',
+            'email' => 'meong@gmail.com',
+            'no_wa' => '+6283142285716',
+            'tempat_lahir' => 'Makassar',
+            'tanggal_lahir' => date('Y-m-d'),
             'nik' => "15920011",
             'image' => 'default.png',
             'password' => bcrypt('admin'),
@@ -90,6 +119,10 @@ class DatabaseSeeder extends Seeder
         ]);
         User::create([
             'name' => 'Cat',
+            'email' => 'cat@gmail.com',
+            'no_wa' => '+6283193333382',
+            'tempat_lahir' => 'Makassar',
+            'tanggal_lahir' => date('Y-m-d'),
             'nik' => "15920012",
             'image' => 'default.png',
             'password' => bcrypt('user'),

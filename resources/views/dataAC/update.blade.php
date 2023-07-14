@@ -4,6 +4,8 @@
 @section('content')
     <link href="{{ asset('assets/plugins/input-tags/css/tagsinput.css') }}" rel="stylesheet" />
 
+    <div class="flash-error" data-error="{{ session('error') }}"></div>
+
     <div class="row">
         <div class="col-xl-9 mx-auto">
             <a href="{{ url('/ac') }}" class="btn btn-success btn-sm mb-3"><i class="bi bi-arrow-left"></i> Back</a>
@@ -17,14 +19,15 @@
                             @csrf
                             <div class="col-md-4">
                                 <label for="tgl_pemasangan" class="form-label">Tanggal Pemasangan</label>
-                                <input type="text" class="form-control" name="tgl_pemasangan"
-                                id="date-time2" value="{{ old('tgl_pemasangan', $ac->tgl_pemasangan) }}" >
+                                <input type="text" class="form-control" name="tgl_pemasangan" id="date-time2"
+                                    value="{{ old('tgl_pemasangan', $ac->tgl_pemasangan) }}">
                             </div>
                             <div class="col-md-4">
                                 <label for="petugas_pemasangan" class="form-label">Petugas Pemasangan</label>
                                 <input type="text" data-role="tagsinput" class="form-control" id="petugas_pemasangan"
                                     name="petugas_pemasangan"
-                                    value="{{ old('petugas_pemasangan', $ac->petugas_pemasangan) }}" >
+                                    value="{{ old('petugas_pemasangan', $ac->petugas_pemasangan) }}">
+                                    <small>Jika lebih dari 2 nama akhiri tiap nama dengan karakter koma  ( , )</small>
                             </div>
                             <div class="col-md-4">
                                 <label for="tgl_maintenance" class="form-label">Tanggal Maintenance</label>
@@ -32,15 +35,33 @@
                                     value="{{ old('tgl_maintenance', $ac->tgl_maintenance) }}">
                             </div>
                             <div class="col-md-12">
-                                <label for="petugas_maint" class="form-label">Petugas Maintenance</label>
-                                <input class="form-control" data-role="tagsinput" type="text" name="petugas_maint"
-                                    value="{{ old('petugas_maint', $ac->petugas_maint) }}">
+                                <label for="petugas_maint" class="form-label">Petugas Maintenance
+                                    <small>(optional)</small></label>
+                                <select
+                                    class="multiple-select @error('petugas_maint') is-invalid
+                                    @enderror"
+                                    data-placeholder="Choose anything" multiple="multiple" name="petugas_maint[]"
+                                    value="{{ old('petugas_maint') }}">
+                                   
+                                    <option value="" disabled>--Select--</option>
+                                    @foreach ($dataall as $data)
+                                        <option value="{{ $data }}"
+                                            {{ in_array($data, explode(',', $ac->petugas_maint)) ? 'selected' : '' }}>
+                                            {{ $data }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('petugas_maint')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="col-md-4">
                                 <label for="label" class="form-label">ID</label>
                                 <input type="text" class="form-control @error('label')
             is-invalid @enderror"
-                                    id="label" name="label" value="{{ old('label', $ac->label) }}" >
+                                    id="label" name="label" value="{{ old('label', $ac->label) }}">
                                 @error('label')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -50,11 +71,11 @@
                             <div class="col-md-4">
                                 <label for="assets" class="form-label">Asset</label>
                                 <input type="text" class="form-control" name="assets" id="assets"
-                                    value="{{ old('assets', $ac->assets) }}" >
+                                    value="{{ old('assets', $ac->assets) }}">
                             </div>
                             <div class="col-md-4">
                                 <label for="merk" class="form-label">Merk <span class="text-danger">*</span></label>
-                                <select class="form-select" id="merk" required name="merk" >
+                                <select class="single-select" id="merk" required name="merk">
                                     <option value="{{ $ac->merk }}" selected>{{ $ac->merk }}</option>
                                     <option disabled value="">--Select--</option>
                                     <option value="Daikin">Daikin</option>
@@ -71,8 +92,8 @@
                             </div>
                             <div class="col-md-4">
                                 <label for="wing" class="form-label">Wing <span class="text-danger">*</span></label>
-                                <select class="form-select" id="wing" required name="wing"
-                                    value="{{ $ac->wing }}" >
+                                <select class="single-select" id="wing" required name="wing"
+                                    value="{{ $ac->wing }}">
                                     <option value="{{ $ac->wing }}" selected>{{ $ac->wing }}</option>
                                     <option disabled value="">--Select--</option>
                                     <option value="WA">WA</option>
@@ -85,7 +106,7 @@
                             <div class="col-md-4">
                                 <label for="lantai" class="form-label">Lantai <span
                                         class="text-danger">*</span></label>
-                                <select class="form-select" id="lantai" required name="lantai" >
+                                <select class="single-select" id="lantai" required name="lantai">
                                     <option value="{{ $ac->lantai }}" selected>{{ $ac->lantai }}</option>
                                     <option disabled value="">--Select--</option>
                                     <option value="Lt1">Lt1</option>
@@ -101,7 +122,7 @@
                             </div>
                             <div class="col-md-4">
                                 <label for="type" class="form-label">Type <span class="text-danger">*</span></label>
-                                <select class="form-select" id="type" required name="type" >
+                                <select class="single-select" id="type" required name="type">
                                     <option value="{{ $ac->type }}" selected>{{ $ac->type }}</option>
                                     <option disabled value="">--Select--</option>
                                     <option value="Cassete">Cassete</option>
@@ -113,7 +134,7 @@
                             <div class="col-md-4">
                                 <label for="kapasitas" class="form-label">Kapasitas <span
                                         class="text-danger">*</span></label>
-                                <select class="form-select" id="kapasitas" required name="kapasitas" >
+                                <select class="single-select" id="kapasitas" required name="kapasitas">
                                     <option value="{{ $ac->kapasitas }}" selected>{{ $ac->kapasitas }}</option>
                                     <option disabled value="">--Select--</option>
                                     <option value="1/2pk">1/2pk</option>
@@ -130,7 +151,7 @@
                             </div>
                             <div class="col-md-4">
                                 <label for="jenis" class="form-label">Jenis <span class="text-danger">*</span></label>
-                                <select class="form-select" id="jenis" required name="jenis">
+                                <select class="single-select" id="jenis" required name="jenis">
                                     <option value="{{ $ac->jenis }}" selected>{{ $ac->jenis }}</option>
                                     <option disabled value="">--Select--</option>
                                     <option value="Inverter">Inverter</option>
@@ -140,7 +161,7 @@
                             <div class="col-md-4">
                                 <label for="refrigerant" class="form-label">Refrigerant <span
                                         class="text-danger">*</span></label>
-                                <select class="form-select" id="refrigerant" required name="refrigerant" >
+                                <select class="single-select" id="refrigerant" required name="refrigerant">
                                     <option value="{{ $ac->refrigerant }}" selected>{{ $ac->refrigerant }}</option>
                                     <option disabled value="">--Select--</option>
                                     <option value="R22">R22</option>
@@ -151,17 +172,17 @@
                             <div class="col-md-4">
                                 <label for="product" class="form-label">Product</label>
                                 <input type="text" class="form-control" name="product" id="product"
-                                    value="{{ old('product', $ac->product) }}" >
+                                    value="{{ old('product', $ac->product) }}">
                             </div>
                             <div class="col-md-4">
                                 <label for="current" class="form-label">Amper</label>
                                 <input type="text" class="form-control" name="current" id="current"
-                                    value="{{ old('current', $ac->current) }}" >
+                                    value="{{ old('current', $ac->current) }}">
                             </div>
                             <div class="col-md-3">
                                 <label for="voltage" class="form-label">Voltage <span
                                         class="text-danger">*</span></label>
-                                <select class="form-select" id="voltage" required name="voltage" >
+                                <select class="single-select" id="voltage" required name="voltage">
                                     <option value="{{ $ac->voltage }}" selected>{{ $ac->voltage }}</option>
                                     <option disabled value="">--Select--</option>
                                     <option value="220Volt">220Volt</option>
@@ -171,11 +192,11 @@
                             <div class="col-md-3">
                                 <label for="btu" class="form-label">Btu</label>
                                 <input type="text" class="form-control" name="btu" id="btu"
-                                    value="{{ old('btu', $ac->btu) }}" >
+                                    value="{{ old('btu', $ac->btu) }}">
                             </div>
                             <div class="col-md-3">
                                 <label for="pipa" class="form-label">Pipa <small>(Liquid + Gas)</small></label>
-                                <select class="form-select" id="pipa" name="pipa" >
+                                <select class="single-select" id="pipa" name="pipa">
                                     <option value="{{ $ac->pipa }}" selected>{{ $ac->pipa }}</option>
                                     <option disabled value="">--Select--</option>
                                     <option value="1/4 + 3/8">1/4 + 3/8</option>
@@ -191,7 +212,7 @@
                             <div class="col-md-3">
                                 <label for="status" class="form-label">Status <span
                                         class="text-danger">*</span></label>
-                                <select class="form-select" id="status" required name="status" >
+                                <select class="form-select" id="status" required name="status">
                                     <option value="{{ $ac->status }}" selected>{{ $ac->status }}</option>
                                     <option disabled value="">--Select--</option>
                                     <option value="Normal">Normal</option>
@@ -207,7 +228,7 @@
               is-invalid
             @enderror"
                                     name="seri_indoor" id="seriIndoor"
-                                    value="{{ old('seri_indoor', $ac->seri_indoor) }}" >
+                                    value="{{ old('seri_indoor', $ac->seri_indoor) }}">
                                 @error('seri_indoor')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -219,7 +240,7 @@
                                     <small>(optional)</small></label>
                                 <input type="text" class="form-control @error('seri_outdoor') is-invalid @enderror"
                                     name="seri_outdoor" id="seriOutdoor"
-                                    value="{{ old('seri_outdoor', $ac->seri_outdoor) }}" >
+                                    value="{{ old('seri_outdoor', $ac->seri_outdoor) }}">
                                 @error('seri_outdoor')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -256,9 +277,11 @@
 
     <!--end row-->
 
-    {{-- <script src="{{ asset('assets/js/jquery.min.js') }}"></script> --}}
+
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('assets/plugins/input-tags/js/tagsinput.js') }}"></script>
+    <script src="{{ asset('') }}/assets/js/flash-notif.js"></script>
+    <script src="{{ asset('assets/myScript/funcUpdateAC.js') }}"></script>
 
 
     <script>
@@ -268,7 +291,7 @@
             const note = document.querySelector('#catatan');
 
             if (stValue == 'Rusak') {
-                document.querySelector('#kerusakan').required= true;
+                document.querySelector('#kerusakan').required = true;
                 $('#kerusakan').show(1000);
                 $('#labelKeteranganUpdate').show(1000);
                 $('#colKeteranganUpdate').removeClass('col-12');

@@ -6,12 +6,14 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <link href="{{asset('')}}/assets/plugins/select2/css/select2.min.css" rel="stylesheet" />
+  <link href="{{asset('')}}/assets/plugins/select2/css/select2-bootstrap4.css" rel="stylesheet" />
   <link href="{{ asset('assets/plugins/datetimepicker/css/classic.css') }}" rel="stylesheet" />
   <link href="{{ asset('assets/plugins/datetimepicker/css/classic.time.css') }}" rel="stylesheet" />
   <link href="{{ asset('assets/plugins/datetimepicker/css/classic.date.css') }}" rel="stylesheet" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link href="{{ asset('assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet" />
+  <link rel="stylesheet" href="{{asset('')}}/assets/plugins/notifications/css/lobibox.min.css" />
   <link href="{{ asset('assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet" />
   <link href="{{ asset('assets/plugins/vectormap/jquery-jvectormap-2.0.2.css') }}" rel="stylesheet" />
   <link href="{{ asset('assets/plugins/datatable/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet" />
@@ -116,6 +118,9 @@
   <script src="{{ asset('assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
 	<script src="{{ asset('assets/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
 
+  <script src="{{asset('')}}/assets/plugins/select2/js/select2.min.js"></script>
+  <script src="{{asset('')}}/assets/js/form-select2.js"></script>
+
   <script src="{{ asset('assets/js/table-datatable.js') }}"></script>
   <script src="{{ asset('assets/js/form-date-time-pickes.js') }}"></script>
   <script src="{{ asset('assets/js/app.js') }}"></script>
@@ -134,6 +139,8 @@
 
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
+  {{-- NOTIF --}}
+  <script src="{{asset('')}}/assets/plugins/notifications/js/notifications.min.js"></script>
 
   <script>
 

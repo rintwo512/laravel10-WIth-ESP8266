@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 use App\Models\MSession;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 
 class MembersController extends Controller
@@ -33,11 +34,18 @@ class MembersController extends Controller
      */
     public function store(Request $request)
     {
-        $validateData = $request->validate([
-            'name' => 'required',
-            'nik' => 'required|numeric|unique:users',
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:2',
+            'nik' => 'required|digits:8|numeric|unique:users',
             'password' => 'required|min:3'
         ]);
+
+        if ($validator->fails()) {
+            return redirect('/members')
+                ->withErrors($validator)
+                ->withInput();
+                // ->with('error', $request->name . ' gagal ditambahkan!');
+        }
 
         if ($request->isActive > 0) {
 
@@ -55,17 +63,23 @@ class MembersController extends Controller
 
         $validateData['image'] = 'default.png';
         $validateData['password'] = bcrypt($request->password);
+        $validateData['name'] = $request->name;
+        $validateData['nik'] = $request->nik;
 
         User::create($validateData);
-        return redirect('/members');
+        return redirect('/members')->with('success', $request->name . ' berhasil ditambahkan!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function detailUser($id)
     {
-        //
+        $userDetails = User::find($id);
+        return view('members.detailUser', [
+            'title' => 'Data Detail User',
+            'data' => $userDetails
+        ]);
     }
 
     /**
@@ -96,7 +110,7 @@ class MembersController extends Controller
         }
 
         User::where('id', $id)->update($data);
-        return redirect('/members');
+        return redirect('/members')->with('success', 'Data user berhasil diupdate!' );
     }
 
     /**

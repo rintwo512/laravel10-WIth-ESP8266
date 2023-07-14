@@ -33,7 +33,7 @@ class MenuController extends Controller
         }
     }
 
-    return redirect('/members')->with('success', 'Menu berhasil diperbarui untuk pengguna: ' . $user->name);
+    return redirect('/members')->with('success', 'Menu berhasil diupdate');
 }
 
 

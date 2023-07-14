@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('acara', function (Blueprint $table) {
             $table->id();
-            $table->string('penyelenggara');
+            $table->string('penyelenggara')->nullable();
             $table->string('tema_acara');
             $table->string('lokasi_acara');
             $table->datetime('waktu_mulai');
